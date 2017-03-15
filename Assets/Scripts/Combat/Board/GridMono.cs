@@ -30,6 +30,9 @@
         private bool m_GemsAreAnimating;
         private List<IEnumerator> m_GemMatchAnimations = new List<IEnumerator>();
 
+        private bool m_GemsAreMatching;
+        private IEnumerator m_WaitToCheckForMatch;
+
         public Grid grid { get { return m_Grid; } }
 
         public RectTransform rectTransform { get { return m_RectTransform; } }
@@ -56,22 +59,26 @@
             if (m_GemMatchAnimations.Count != 0)
             {
                 m_GemsAreAnimating = true;
+                m_GemsAreMatching = true;
 
                 var tempList = m_GemMatchAnimations.ToList();
                 foreach (var gemMatchAnimation in tempList)
                     if (!gemMatchAnimation.MoveNext())
                         m_GemMatchAnimations.Remove(gemMatchAnimation);
             }
-            else
-            if (m_GemsAreAnimating)
+            else if (m_GemsAreMatching)
             {
                 m_Grid.ApplyGravity();
                 m_Grid.Fill();
 
-                m_Grid.CheckMatch();
+                m_WaitToCheckForMatch = WaitToCheckForMatch();
 
-                m_GemsAreAnimating = false;
+                m_GemsAreMatching = false;
             }
+            else if (m_WaitToCheckForMatch != null)
+                m_WaitToCheckForMatch.MoveNext();
+            else
+                m_GemsAreAnimating = false;
         }
 
         private void OnPlayerTurn()
@@ -85,6 +92,22 @@
                 new Vector2(
                     m_RectTransform.rect.width / (grid.size.x - 1),
                     m_RectTransform.rect.height / (grid.size.y - 1));
+        }
+
+        private IEnumerator WaitToCheckForMatch()
+        {
+            while (
+                grid.gemLists.Any(
+                    gemList => gemList.gems.Where(
+                        gem => gem != null).Any(
+                        gem => gem.GetComponent<GemMono>().moveToPositionCoroutine != null)))
+            {
+                yield return null;
+            }
+
+            m_Grid.CheckMatch();
+
+            m_WaitToCheckForMatch = null;
         }
 
         public static void Init()

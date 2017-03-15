@@ -13,25 +13,24 @@
     public class GemMono : MonoBehaviour, IComponent
     {
         [SerializeField]
-        private Image m_BackgroundImage;
+        protected Image m_BackgroundImage;
         [SerializeField]
-        private Image m_MidgroundImage;
+        protected Image m_MidgroundImage;
         [SerializeField]
-        private Image m_ForegroundImage;
+        protected Image m_ForegroundImage;
 
         [SerializeField]
-        private RectTransform m_RectTransform;
+        protected RectTransform m_RectTransform;
 
         [SerializeField]
-        private Gem m_Gem;
+        protected Gem m_Gem;
 
-        private Vector2 m_CurrentPosition;
-        private float m_MoveToPositionTime = 1f;
+        protected Vector2 m_CurrentPosition;
         private IEnumerator m_MoveToPositionCoroutine;
 
-        private bool m_PositionIsDirty;
+        protected bool m_PositionIsDirty;
 
-        private GameObject m_DuplicateImage;
+        private GemMonoDuplicate m_GemMonoDuplicate;
 
         private static List<GemMono> s_GemsCreatedThisFrame = new List<GemMono>();
 
@@ -77,6 +76,8 @@
                     if (position.y > gemMono.position.y)
                         stackPosition++;
 
+            m_GemMonoDuplicate = gem.GetComponent<GemMonoDuplicate>();
+
             m_CurrentPosition =
                 new Vector2(
                     m_Gem.position.x
@@ -92,6 +93,7 @@
 
             // Now that everything should be initialized, we can show the gem visually
             m_BackgroundImage.enabled = true;
+            m_MidgroundImage.enabled = true;
             m_ForegroundImage.enabled = true;
         }
 
@@ -104,10 +106,10 @@
                     m_MoveToPositionCoroutine = null;
         }
 
-        private void OnCombatLateUpdate()
+        protected void OnCombatLateUpdate()
         {
             if (m_PositionIsDirty)
-                UpdatePosition();
+                UpdateTransformPosition();
         }
 
         public Vector2 CalculatePosition(Vector2 newPosition)
@@ -118,7 +120,17 @@
             return new Vector2(newPosition.x * spacing.x, newPosition.y * spacing.y);
         }
 
-        private void OnTypeChange(TypeChangeInformation typeChangeInfo)
+        protected void UpdateGemColor()
+        {
+            OnTypeChange(
+                new TypeChangeInformation
+                {
+                    gem = gem,
+                    newType = gem.gemType,
+                });
+        }
+
+        protected void OnTypeChange(TypeChangeInformation typeChangeInfo)
         {
             // This should not happen because we only subscribe to the gem we care about but still...
             if (typeChangeInfo.gem != gem)
@@ -143,17 +155,23 @@
             m_MoveToPositionCoroutine = MoveToPosition(moveToPosition);
         }
 
-        private void OnMatch(MatchInformation matchInfo)
+        protected void OnMatch(MatchInformation matchInfo)
         {
             if (matchInfo.gems.Any(matchInfoGem => matchInfoGem == m_Gem))
                 gridMono.gemMatchAnimations.Add(MatchAnimation());
         }
-        private void OnGridChange(GridChangeInformation gridChangeInfo)
+
+        private void OnGridResize(GridResizeInformation gridResizeInformation)
         {
-            //TODO: Check to see if this gem was changed in the grid
+            OnPositionChange(
+                new PositionChangeInformation
+                {
+                    gem = gem,
+                    newPosition = gem.position
+                });
         }
 
-        private void OnCombatModeChange()
+        protected void OnCombatModeChange()
         {
             m_BackgroundImage.sprite =
                 CombatManager.self.combatUiInformation.currentModeUiInformation.backgroundImage;
@@ -165,12 +183,33 @@
                 CombatManager.self.combatUiInformation.currentModeUiInformation.foregroundImage;
         }
 
-        private void OnUseAlternativeColorsChange(bool value)
+        protected void OnUseAlternativeColorsChange(bool value)
         {
             var spriteIndex = (int)gemType;
 
             m_MidgroundImage.color = CombatManager.self.combatUiInformation.gemColors[spriteIndex];
             m_ForegroundImage.color = CombatManager.self.combatUiInformation.gemColors[spriteIndex];
+        }
+
+        protected virtual void UpdateTransformPosition()
+        {
+            var nextPosition =
+                grid.ClampPosition(
+                    position + rowMono.currentDirection + columnMono.currentDirection);
+
+            if (nextPosition != position + rowMono.currentDirection + columnMono.currentDirection)
+            {
+                if (!m_GemMonoDuplicate.gameObject.activeSelf)
+                {
+                    m_GemMonoDuplicate.gameObject.SetActive(true);
+                    m_GemMonoDuplicate.UpdateTransformPosition();
+                }
+            }
+            else if (m_GemMonoDuplicate.gameObject.activeSelf)
+                m_GemMonoDuplicate.gameObject.SetActive(false);
+
+            m_RectTransform.anchoredPosition =
+                m_CurrentPosition + rowMono.positionOffset + columnMono.positionOffset;
         }
 
         private IEnumerator MoveToPosition(Vector2 newPosition)
@@ -179,7 +218,7 @@
             while (m_CurrentPosition != newPosition)
             {
                 m_CurrentPosition =
-                    Vector2.MoveTowards(m_CurrentPosition, newPosition, 50f * deltaTime);
+                    Vector2.MoveTowards(m_CurrentPosition, newPosition, 5f + 50f * deltaTime);
 
                 deltaTime += Time.deltaTime;
 
@@ -193,126 +232,65 @@
             m_MoveToPositionCoroutine = null;
         }
 
-        private void UpdatePosition()
-        {
-            var spacing = gridMono.CalculateSpacing();
-
-            var nextPosition =
-                grid.ClampPosition(
-                    position + rowMono.currentDirection + columnMono.currentDirection);
-
-            if (nextPosition != position + rowMono.currentDirection + columnMono.currentDirection)
-            {
-                if (m_DuplicateImage == null)
-                {
-                    m_DuplicateImage = new GameObject();
-                    m_DuplicateImage.transform.SetParent(transform.parent, false);
-
-                    var duplicateRectTransform = m_DuplicateImage.AddComponent<RectTransform>();
-
-                    duplicateRectTransform.anchorMin = Vector2.zero;
-                    duplicateRectTransform.anchorMax = Vector2.zero;
-                    duplicateRectTransform.sizeDelta = Vector2.zero;
-
-                    duplicateRectTransform.anchoredPosition = m_CurrentPosition;
-
-                    var duplicateSpriteRenderer = m_DuplicateImage.AddComponent<Image>();
-                    duplicateSpriteRenderer.sprite = m_BackgroundImage.sprite;
-                    duplicateSpriteRenderer.color = m_BackgroundImage.color;
-                    duplicateSpriteRenderer.SetNativeSize();
-
-                    duplicateRectTransform.sizeDelta = m_RectTransform.sizeDelta;
-
-                    var duplicateMidgroundGameObject = new GameObject();
-                    var duplicateMidgroundRectTransform =
-                        duplicateMidgroundGameObject.AddComponent<RectTransform>();
-                    var duplicateMidgroundImage = duplicateMidgroundGameObject.AddComponent<Image>();
-
-                    duplicateMidgroundImage.sprite = m_MidgroundImage.sprite;
-                    duplicateMidgroundImage.color = m_MidgroundImage.color;
-                    duplicateMidgroundImage.SetNativeSize();
-
-                    duplicateMidgroundGameObject.transform.SetParent(m_DuplicateImage.transform, false);
-
-                    duplicateMidgroundRectTransform.sizeDelta = m_RectTransform.sizeDelta;
-
-                    var duplicateForegroundGameObject = new GameObject();
-                    var duplicateForegroundRectTransform =
-                        duplicateForegroundGameObject.AddComponent<RectTransform>();
-                    var duplicateForegroundImage = duplicateForegroundGameObject.AddComponent<Image>();
-
-                    duplicateForegroundImage.sprite = m_ForegroundImage.sprite;
-                    duplicateForegroundImage.color = m_ForegroundImage.color;
-                    duplicateForegroundImage.SetNativeSize();
-
-                    duplicateForegroundGameObject.transform.SetParent(m_DuplicateImage.transform, false);
-
-                    duplicateForegroundRectTransform.sizeDelta = m_RectTransform.sizeDelta;
-                }
-
-                m_DuplicateImage.GetComponent<RectTransform>().anchoredPosition =
-                    CalculatePosition(position) + rowMono.positionOffset + columnMono.positionOffset;
-
-                m_CurrentPosition = nextPosition - rowMono.currentDirection - columnMono.currentDirection;
-                m_CurrentPosition =
-                    new Vector2(m_CurrentPosition.x * spacing.x, m_CurrentPosition.y * spacing.y);
-            }
-            else if (m_DuplicateImage != null)
-            {
-                Destroy(m_DuplicateImage.gameObject);
-                m_CurrentPosition = CalculatePosition(position);
-            }
-
-            m_RectTransform.anchoredPosition =
-                m_CurrentPosition + columnMono.positionOffset + rowMono.positionOffset;
-        }
-
-        private IEnumerator MatchAnimation()
+        protected IEnumerator MatchAnimation()
         {
             var deltaTime = 0f;
-            while (deltaTime < 1f)
+            while (deltaTime < 0.5f)
             {
                 m_BackgroundImage.color =
                     new Color(
                         m_BackgroundImage.color.r,
                         m_BackgroundImage.color.g,
                         m_BackgroundImage.color.b,
-                        1 - deltaTime / 1f);
+                        1 - deltaTime / 0.5f);
 
                 m_MidgroundImage.color =
                     new Color(
                         m_MidgroundImage.color.r,
                         m_MidgroundImage.color.g,
                         m_MidgroundImage.color.b,
-                        1 - deltaTime / 1f);
+                        1 - deltaTime / 0.5f);
 
                 m_ForegroundImage.color =
                     new Color(
                         m_ForegroundImage.color.r,
                         m_ForegroundImage.color.g,
                         m_ForegroundImage.color.b,
-                        1 - deltaTime / 1f);
+                        1 - deltaTime / 0.5f);
 
                 deltaTime += Time.deltaTime;
 
                 yield return null;
             }
 
-            if (m_DuplicateImage != null)
-                Destroy(m_DuplicateImage);
-
             Destroy(gameObject);
         }
+
+        #region STATIC_FUNCTIONS
 
         public static void Init()
         {
             Gem.onCreate.AddListener(OnCreateGem);
         }
 
-        public static void OnCreateGem(Gem newGem)
+        private static void OnCreateGem(Gem newGem)
+        {
+            var newGemMono = CreateBaseGameObject<GemMono>(newGem);
+
+            SubscribeToEvents(newGemMono);
+        }
+
+        protected static GemMono CreateBaseGameObject<T>(Gem gem) where T : GemMono
         {
             var newGameObject = new GameObject();
-            var newGemMono = newGameObject.AddComponent<GemMono>();
+            var newGemMono = newGameObject.AddComponent<T>();
+
+            // Connect Gem to GemMono
+            newGemMono.gem = gem;
+            gem.components.Add(newGemMono);
+
+            var gridMono = newGemMono.gridMono;
+            newGameObject.transform.SetParent(gridMono.transform, false);
 
             newGemMono.m_RectTransform = newGameObject.GetComponent<RectTransform>();
 
@@ -320,85 +298,78 @@
             newGemMono.m_RectTransform.anchorMax = Vector2.zero;
             newGemMono.m_RectTransform.sizeDelta = Vector2.zero;
 
-            newGemMono.m_BackgroundImage = newGameObject.GetComponent<Image>();
-            newGemMono.m_BackgroundImage.sprite =
-                CombatManager.self.combatUiInformation.currentModeUiInformation.backgroundImage;
-            newGemMono.m_BackgroundImage.SetNativeSize();
+            AttachBackgroundImage(newGameObject, newGemMono);
+            AttachMidgroundGameObject(newGemMono);
+            AttachForegroundGameObject(newGemMono);
 
-            newGemMono.m_RectTransform.sizeDelta = newGemMono.m_RectTransform.sizeDelta / 8f;
-
-            var midgroundGameObject = new GameObject();
-            var midgroundRectTransform = midgroundGameObject.AddComponent<RectTransform>();
-
-            newGemMono.m_MidgroundImage = midgroundGameObject.AddComponent<Image>();
-            newGemMono.m_MidgroundImage.sprite =
-                CombatManager.self.combatUiInformation.currentModeUiInformation.midgroundImage;
-            newGemMono.m_MidgroundImage.SetNativeSize();
-
-            midgroundGameObject.transform.SetParent(newGemMono.transform, false);
-
-            midgroundRectTransform.sizeDelta = newGemMono.m_RectTransform.sizeDelta;
-
-            var foregroundGameObject = new GameObject();
-            var foregroundRectTransform = foregroundGameObject.AddComponent<RectTransform>();
-
-            newGemMono.m_ForegroundImage = foregroundGameObject.AddComponent<Image>();
-            newGemMono.m_ForegroundImage.sprite =
-                CombatManager.self.combatUiInformation.currentModeUiInformation.foregroundImage;
-            newGemMono.m_ForegroundImage.SetNativeSize();
-
-            foregroundGameObject.transform.SetParent(newGemMono.transform, false);
-
-            foregroundRectTransform.sizeDelta = newGemMono.m_RectTransform.sizeDelta;
+            newGemMono.UpdateGemColor();
 
             // Hide the gem visually for now
             newGemMono.m_BackgroundImage.enabled = false;
+            newGemMono.m_MidgroundImage.enabled = false;
             newGemMono.m_ForegroundImage.enabled = false;
 
-            newGemMono.gem = newGem;
-            newGem.components.Add(newGemMono);
-
-            // Subscribe to the relevant events
-            newGemMono.gem.onTypeChange.AddListener(newGemMono.OnTypeChange);
-            newGemMono.gem.onPositionChange.AddListener(newGemMono.OnPositionChange);
-
-            var gridMono = newGemMono.gridMono;
-
-            gridMono.grid.onMatch.AddListener(newGemMono.OnMatch);
-            gridMono.grid.onGridChange.AddListener(newGemMono.OnGridChange);
-
-            // Parent the object before moving it
-            newGameObject.transform.SetParent(gridMono.transform, false);
-
-            // Manually invoke some functions that would normally wait for events
-            // This is done for initialization
-            newGemMono.OnPositionChange(
-                new PositionChangeInformation
-                {
-                    gem = newGemMono.gem,
-                    newPosition = newGemMono.gem.position,
-                });
-            newGemMono.OnTypeChange(
-                new TypeChangeInformation
-                {
-                    gem = newGemMono.gem,
-                    newType = newGemMono.gem.gemType,
-                });
-
-            gridMono.onGridResize.AddListener(
-                empty => newGemMono.OnPositionChange(
-                    new PositionChangeInformation
-                    {
-                        gem = newGemMono.gem,
-                        newPosition = newGemMono.gem.position
-                    }));
-
-            CombatManager.self.onCombatUpdate.AddListener(newGemMono.OnCombatUpdate);
-            CombatManager.self.onCombatLateUpdate.AddListener(newGemMono.OnCombatLateUpdate);
-
-            CombatManager.self.onCombatModeChange.AddListener(newGemMono.OnCombatModeChange);
-            CombatManager.self.combatUiInformation.onUseAlternativeColorsChange.AddListener(
-                newGemMono.OnUseAlternativeColorsChange);
+            return newGemMono;
         }
+
+        protected static void AttachBackgroundImage(GameObject gameObject, GemMono gemMono)
+        {
+            gemMono.m_BackgroundImage = gameObject.GetComponent<Image>();
+            gemMono.m_BackgroundImage.sprite =
+                CombatManager.self.combatUiInformation.currentModeUiInformation.backgroundImage;
+            gemMono.m_BackgroundImage.SetNativeSize();
+
+            gemMono.m_RectTransform.sizeDelta = gemMono.m_RectTransform.sizeDelta / 8f;
+        }
+
+        protected static void AttachMidgroundGameObject(GemMono gemMono)
+        {
+            var midgroundGameObject = new GameObject();
+            var midgroundRectTransform = midgroundGameObject.AddComponent<RectTransform>();
+
+            gemMono.m_MidgroundImage = midgroundGameObject.AddComponent<Image>();
+            gemMono.m_MidgroundImage.sprite =
+                CombatManager.self.combatUiInformation.currentModeUiInformation.midgroundImage;
+            gemMono.m_MidgroundImage.SetNativeSize();
+
+            midgroundGameObject.transform.SetParent(gemMono.transform, false);
+
+            midgroundRectTransform.sizeDelta = gemMono.m_RectTransform.sizeDelta;
+        }
+
+        protected static void AttachForegroundGameObject(GemMono gemMono)
+        {
+            var foregroundGameObject = new GameObject();
+            var foregroundRectTransform = foregroundGameObject.AddComponent<RectTransform>();
+
+            gemMono.m_ForegroundImage = foregroundGameObject.AddComponent<Image>();
+            gemMono.m_ForegroundImage.sprite =
+                CombatManager.self.combatUiInformation.currentModeUiInformation.foregroundImage;
+            gemMono.m_ForegroundImage.SetNativeSize();
+
+            foregroundGameObject.transform.SetParent(gemMono.transform, false);
+
+            foregroundRectTransform.sizeDelta = gemMono.m_RectTransform.sizeDelta;
+        }
+
+        protected static void SubscribeToEvents(GemMono gemMono)
+        {
+            // Subscribe to the relevant events
+
+            gemMono.gridMono.grid.onMatch.AddListener(gemMono.OnMatch);
+            gemMono.gridMono.onGridResize.AddListener(gemMono.OnGridResize);
+
+            CombatManager.self.onCombatUpdate.AddListener(gemMono.OnCombatUpdate);
+            CombatManager.self.onCombatLateUpdate.AddListener(gemMono.OnCombatLateUpdate);
+
+            CombatManager.self.onCombatModeChange.AddListener(gemMono.OnCombatModeChange);
+            CombatManager.self.combatUiInformation.onUseAlternativeColorsChange.AddListener(
+                gemMono.OnUseAlternativeColorsChange);
+
+            gemMono.gem.onTypeChange.AddListener(gemMono.OnTypeChange);
+            gemMono.gem.onPositionChange.AddListener(gemMono.OnPositionChange);
+        }
+
+        #endregion
     }
 }

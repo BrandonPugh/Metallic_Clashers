@@ -61,7 +61,6 @@
             foreach (var gemMono in gemMonos)
             {
                 var newPosition = gemMono.CalculatePosition(gemMono.position + m_CurrentDirection);
-
                 gemMono.currentPosition = newPosition;
             }
 
@@ -80,11 +79,13 @@
         {
             CheckForSlide();
 
-            foreach (var gem in gridCollection.gems.Where(gem => gem != null))
-            {
-                var gemMono = gem.GetComponent<GemMono>();
-                gemMono.positionIsDirty = true;
-            }
+            var gemMonos =
+                gridCollection.gems.Where(
+                    gem => gem != null).SelectMany(
+                        gem => gem.GetComponents<GemMono>()).ToList();
+
+            foreach (var gem in gemMonos)
+                gem.positionIsDirty = true;
 
             yield return null;
 
@@ -111,11 +112,13 @@
 
                 CheckForSlide();
 
-                foreach (var gem in gridCollection.gems.Where(gem => gem != null))
-                {
-                    var gemMono = gem.GetComponent<GemMono>();
-                    gemMono.positionIsDirty = true;
-                }
+                gemMonos =
+                    gridCollection.gems.Where(
+                        gem => gem != null).SelectMany(
+                            gem => gem.GetComponents<GemMono>()).ToList();
+
+                foreach (var gem in gemMonos)
+                    gem.positionIsDirty = true;
 
                 deltaTime += Time.deltaTime;
 
@@ -125,11 +128,13 @@
             m_PositionOffset = Vector2.zero;
             m_CurrentDirection = Vector2.zero;
 
-            foreach (var gem in gridCollection.gems.Where(gem => gem != null))
-            {
-                var gemMono = gem.GetComponent<GemMono>();
-                gemMono.positionIsDirty = true;
-            }
+            gemMonos =
+                gridCollection.gems.Where(
+                    gem => gem != null).SelectMany(
+                        gem => gem.GetComponents<GemMono>()).ToList();
+
+            foreach (var gem in gemMonos)
+                gem.positionIsDirty = true;
         }
 
         public static void Init()

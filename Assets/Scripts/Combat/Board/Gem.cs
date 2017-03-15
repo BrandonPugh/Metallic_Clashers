@@ -117,6 +117,10 @@
         {
             return (T)components.First(component => component is T);
         }
+        public IEnumerable<T> GetComponents<T>() where T : IComponent
+        {
+            return components.Where(component => component is T).Cast<T>();
+        }
 
         [CanBeNull]
         public Gem GetNeighbor(Direction direction, bool clamp = false)

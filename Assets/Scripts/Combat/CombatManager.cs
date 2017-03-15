@@ -175,6 +175,7 @@
             GridCollectionMono.Init();
 
             GemMono.Init();
+            GemMonoDuplicate.Init();
 
             var newGrid = new Grid(new Vector2(5f, 5f));
 
@@ -258,11 +259,7 @@
 
         protected override void OnDrag(DragInformation dragInfo)
         {
-            if (gridMono.gemsAreAnimating ||
-                gridMono.grid.gemLists.Any(
-                    gemList => gemList.gems.Where(
-                        gem => gem != null).Any(
-                        gem => gem.GetComponent<GemMono>().moveToPositionCoroutine != null)))
+            if (gridMono.gemsAreAnimating)
                 return;
 
             // If we didn't hit a GridCollectionMono at the start of the drag
