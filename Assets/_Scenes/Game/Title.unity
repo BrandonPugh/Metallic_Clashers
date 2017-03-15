@@ -168,7 +168,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1323261379}
-        m_MethodName: NextScene
+        m_MethodName: LoadScene
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -589,6 +589,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 114349760018057426, guid: 13f28409c2a16c04abcb05d81141243b,
         type: 2}
+      propertyPath: playerData.worldData.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349760018057426, guid: 13f28409c2a16c04abcb05d81141243b,
+        type: 2}
       propertyPath: playerData.weaknesses.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -596,6 +601,16 @@ Prefab:
         type: 2}
       propertyPath: playerData.resistances.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349760018057426, guid: 13f28409c2a16c04abcb05d81141243b,
+        type: 2}
+      propertyPath: playerData.worldData.Array.data[1].nodes.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349760018057426, guid: 13f28409c2a16c04abcb05d81141243b,
+        type: 2}
+      propertyPath: playerData.worldData.Array.data[0].nodes.Array.size
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4902044863395634, guid: 13f28409c2a16c04abcb05d81141243b, type: 2}
       propertyPath: m_LocalPosition.x
@@ -703,6 +718,36 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349760018057426, guid: 13f28409c2a16c04abcb05d81141243b,
+        type: 2}
+      propertyPath: playerData.worldData.Array.data[1].nodes.Array.data[0].isComplete
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349760018057426, guid: 13f28409c2a16c04abcb05d81141243b,
+        type: 2}
+      propertyPath: playerData.worldData.Array.data[1].nodes.Array.data[1].isComplete
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114796631700178808, guid: 13f28409c2a16c04abcb05d81141243b,
+        type: 2}
+      propertyPath: value
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349760018057426, guid: 13f28409c2a16c04abcb05d81141243b,
+        type: 2}
+      propertyPath: playerData.staminaInformation.value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349760018057426, guid: 13f28409c2a16c04abcb05d81141243b,
+        type: 2}
+      propertyPath: playerData.staminaInformation.maxValue
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114349760018057426, guid: 13f28409c2a16c04abcb05d81141243b,
+        type: 2}
+      propertyPath: playerData.staminaInformation.timeLastPlayed
+      value: 3/6/2017 4:33:21 PM
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 81391494619646352, guid: 13f28409c2a16c04abcb05d81141243b, type: 2}

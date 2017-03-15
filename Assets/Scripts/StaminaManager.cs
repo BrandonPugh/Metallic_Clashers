@@ -3,6 +3,7 @@ using Library;
 
 using UnityEngine;
 
+[Serializable]
 public class StaminaInformation
 {
     public uint value;

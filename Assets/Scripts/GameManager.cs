@@ -59,12 +59,12 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void OnCombatEnd()
     {
-        NextScene(1);
+        LoadScene(1);
     }
 
     private void OnStageSelectionEnd()
     {
-        NextScene(2);
+        LoadScene(2);
     }
 
     private void AddSceneListeners()
@@ -110,12 +110,21 @@ public class GameManager : MonoSingleton<GameManager>
         file.Close();
     }
 
-    public void NextScene(int sceneIndex)
+    public void LoadScene(int sceneIndex)
     {
-        StartCoroutine(LoadScene(sceneIndex));
+        StartCoroutine(LoadSceneCoroutine(sceneIndex));
     }
 
-    private IEnumerator LoadScene(int sceneIndex)
+    public bool NextScene()
+    {
+        if (currentScene >= SceneManager.sceneCountInBuildSettings)
+            return false;
+
+        StartCoroutine(LoadSceneCoroutine(currentScene + 1));
+        return true;
+    }
+
+    private IEnumerator LoadSceneCoroutine(int sceneIndex)
     {
         var asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
         currentScene = sceneIndex;

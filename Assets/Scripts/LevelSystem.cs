@@ -1,9 +1,4 @@
-﻿/*
- Script Info
- Script Name: LevelSystem.cs
- Created By: Brock Barlow
- This script is used to level up the player.
-*/
+﻿/* Script Info - Script Name: LevelSystem.cs, Created By: Brock Barlow, This script is used to level up the player. */
 
 using System;
 

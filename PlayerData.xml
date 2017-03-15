@@ -1,29 +1,63 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <PlayerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <health>
-    <value>0</value>
+    <value>200</value>
     <modifier>0</modifier>
-    <coefficient>0</coefficient>
+    <coefficient>1</coefficient>
   </health>
   <attack>
-    <value>0</value>
+    <value>10</value>
     <modifier>0</modifier>
-    <coefficient>0</coefficient>
+    <coefficient>1</coefficient>
   </attack>
   <defense>
-    <value>0</value>
+    <value>10</value>
     <modifier>0</modifier>
-    <coefficient>0</coefficient>
+    <coefficient>1</coefficient>
   </defense>
+  <resistances>
+    <GemType>Red</GemType>
+  </resistances>
+  <weaknesses>
+    <GemType>Green</GemType>
+  </weaknesses>
   <gemSkills />
   <worldData>
     <Tree>
       <nodes>
         <Node>
-          <isComplete>true</isComplete>
+          <isComplete>false</isComplete>
         </Node>
         <Node>
-          <isComplete>true</isComplete>
+          <isComplete>false</isComplete>
+        </Node>
+        <Node>
+          <isComplete>false</isComplete>
+        </Node>
+        <Node>
+          <isComplete>false</isComplete>
+        </Node>
+        <Node>
+          <isComplete>false</isComplete>
+        </Node>
+        <Node>
+          <isComplete>false</isComplete>
+        </Node>
+        <Node>
+          <isComplete>false</isComplete>
+        </Node>
+        <Node>
+          <isComplete>false</isComplete>
+        </Node>
+      </nodes>
+    </Tree>
+    <Tree>
+      <nodes>
+        <Node>
+          <isComplete>false</isComplete>
+        </Node>
+        <Node>
+          <isComplete>false</isComplete>
         </Node>
         <Node>
           <isComplete>false</isComplete>
@@ -51,4 +85,11 @@
     <timeLastPlayed>3/6/2017 4:33:21 PM</timeLastPlayed>
     <maxValue>10</maxValue>
   </staminaInformation>
+  <playerLevelSystem>
+    <playerLevelInfo>
+      <level>5</level>
+      <currentExperience>1000</currentExperience>
+      <experienceRequired>9001</experienceRequired>
+    </playerLevelInfo>
+  </playerLevelSystem>
 </PlayerData>

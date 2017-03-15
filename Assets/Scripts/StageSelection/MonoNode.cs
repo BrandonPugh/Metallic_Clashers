@@ -44,7 +44,7 @@
             }
 
             // If the node is playable
-            else if (node.prevNodes.Any(n => n.isComplete))
+            else if (node.prevNodes.Any(n => n.isComplete) || node.prevNodes.Count == 0)
             {
                 mat.color = Color.blue;
             }

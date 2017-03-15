@@ -27,7 +27,7 @@
         public List<Tree> worlds = new List<Tree>();
         public float spacingMagnitude;
 
-        public int currentworld = 0;
+        public int currentworld;
 
         protected override void Init()
         {
@@ -38,14 +38,14 @@
                     {
                         nodes = new List<Node>
                         {
-                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), isComplete = true},
-                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1)},
-                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2)},
-                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3)},
-                            new Node {stageNumber = "1A", normalizedPosition = new Vector2(1, 0)},
-                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1)},
-                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(-2, 1)},
-                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(1, 2)},
+                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), worldIndex = 1},
+                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1), worldIndex = 1},
+                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2), worldIndex = 1},
+                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3), worldIndex = 1},
+                            new Node {stageNumber = "1A", normalizedPosition = new Vector2(1, 0), worldIndex = 1},
+                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1), worldIndex = 1},
+                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(-2, 1), worldIndex = 1},
+                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(1, 2), worldIndex = 1},
                         }
                     }
                     ,
@@ -54,14 +54,14 @@
                     {
                         nodes = new List<Node>
                         {
-                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), isComplete = true},
-                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1)},
-                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2)},
-                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3)},
-                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1)},
-                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(-1, 2)},
-                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(1, 1)},
-                            new Node {stageNumber = "3B", normalizedPosition = new Vector2(1, 2)},
+                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), worldIndex = 2},
+                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1), worldIndex = 2},
+                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2), worldIndex = 2},
+                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3), worldIndex = 2},
+                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1), worldIndex = 2},
+                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(-1, 2), worldIndex = 2},
+                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(1, 1), worldIndex = 2},
+                            new Node {stageNumber = "3B", normalizedPosition = new Vector2(1, 2), worldIndex = 2},
                         }
                     }
                 };
@@ -69,13 +69,17 @@
             // Make Links
 
             // Tree 1
-            LinkNodes(worlds[0].nodes[0], worlds[0].nodes[4]);
             LinkNodes(worlds[0].nodes[0], worlds[0].nodes[1]);
-            LinkNodes(worlds[0].nodes[1], worlds[0].nodes[5]);
-            LinkNodes(worlds[0].nodes[5], worlds[0].nodes[6]);
             LinkNodes(worlds[0].nodes[1], worlds[0].nodes[2]);
             LinkNodes(worlds[0].nodes[2], worlds[0].nodes[3]);
+            LinkNodes(worlds[0].nodes[0], worlds[0].nodes[4]);
+            LinkNodes(worlds[0].nodes[1], worlds[0].nodes[5]);
+            LinkNodes(worlds[0].nodes[5], worlds[0].nodes[6]);
             LinkNodes(worlds[0].nodes[2], worlds[0].nodes[7]);
+
+
+            //Link
+            LinkNodes(worlds[0].nodes[3], worlds[1].nodes[0]);
 
             // Tree 2
             LinkNodes(worlds[1].nodes[0], worlds[1].nodes[1]);
@@ -94,7 +98,8 @@
             {
                 var nodeGameObjects = new List<GameObject>();
                 foreach (var n in tree.nodes)
-                {
+                { 
+
                     var nodeObject = Instantiate(nodePrefab);
 
                     var monoNode = nodeObject.AddComponent<MonoNode>();
@@ -156,6 +161,9 @@
             {
                 foreach (var n in monoNode.node.nextNodes)
                 {
+                    if(n.worldIndex != monoNode.node.worldIndex)
+                        continue;
+
                     var lineObject = Instantiate(linePrefab); //Create GameObject for LineRenderer
                     var lineTransform = lineObject.GetComponent<RectTransform>();
                     lineObject.name = "Line " + counter;
