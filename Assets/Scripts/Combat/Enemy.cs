@@ -27,6 +27,20 @@ public class Enemy
         CombatManager.self.onPlayerTurn.AddListener(OnPlayerTurn);
         CombatManager.self.onCombatEnd.AddListener(OnCombatEnd);
         CombatManager.self.onCombatUpdate.AddListener(OnCombatUpdate);
+
+        health.value = 10;
+        health.coefficient = 1;
+
+        attack.value = 10;
+        attack.coefficient = 1;
+
+        defense.value = 10;
+        defense.coefficient = 1;
+
+        attackSpeed = 5;
+        attackCountdown = attackSpeed;
+
+        movesUntilAttack = 3;
     }
 
     public Enemy(float pHealth, float pAttack, float pDefense, float pattackSpeed, int pmovesUntilAttack)
