@@ -141,7 +141,7 @@
 
         public CombatMode combatMode { get { return m_CombatMode; } }
 
-        //TODO: public List<Enemy> enemies = new List<>;
+        public List<Enemy> enemies = new List<Enemy>();
 
         public UnityEvent onCombatBegin { get { return m_OnCombatBegin; } }
         public UnityEvent onCombatUpdate { get { return m_OnCombatUpdate; } }
@@ -162,12 +162,24 @@
 
         public GridMono gridMono { get { return m_GridMono; } }
 
+        public GameObject enemyPrefab;
+
         protected override void Init()
         {
             if (m_Canvas == null)
                 m_Canvas = FindObjectOfType<Canvas>();
 
             //TODO: Initialize Combat
+
+            for (var i = 0; i < 3; i++)
+            {
+                var enemyObject = Instantiate(enemyPrefab, new Vector3(i - 1, .5f, 0), enemyPrefab.transform.rotation);
+                var enemyMono = enemyObject.GetComponent<EnemyMono>();
+                enemyMono.enemy = new Enemy();
+                enemies.Add(enemyMono.enemy);
+                m_OnCombatBegin.AddListener(enemyMono.enemy.OnCombatBegin);
+            }
+
             if (m_GridParentRectTransform == null)
                 m_GridParentRectTransform = m_Canvas.GetComponent<RectTransform>();
 

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public class EnemyMono : MonoBehaviour
+namespace Combat
 {
-    public Enemy enemy;
+    public class EnemyMono : MonoBehaviour
+    {
+        public Enemy enemy;
+    }
 }
