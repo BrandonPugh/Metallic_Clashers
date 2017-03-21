@@ -7,10 +7,8 @@ using UnityEngine;
 
 public abstract class SubManager<T> : MonoSingleton<T> where T : MonoBehaviour
 {
-    protected sealed override void Awake()
+    protected sealed override void OnAwake()
     {
-        base.Awake();
-
         InputManager.self.onPress.AddListener(OnPress);
         InputManager.self.onRelease.AddListener(OnRelease);
         InputManager.self.onHold.AddListener(OnHold);

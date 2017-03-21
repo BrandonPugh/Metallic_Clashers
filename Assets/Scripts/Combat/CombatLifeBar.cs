@@ -2,6 +2,7 @@
 {
     using UnityEngine;
     using UnityEngine.UI;
+    using System;
 
     [RequireComponent(typeof(Image))]
     public class CombatLifeBar : MonoBehaviour
@@ -34,7 +35,7 @@
         private void OnCombatUpdate()
         {
             var playerHeath = GameManager.self.playerData.health;
-            m_HealthText.text = playerHeath.totalValue + "/" + playerHeath.value;
+            m_HealthText.text = Math.Ceiling(playerHeath.totalValue) + "/" + playerHeath.value;
         }
     }
 }

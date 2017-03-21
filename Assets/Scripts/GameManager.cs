@@ -9,10 +9,11 @@ using Combat;
 
 using CustomInput;
 
-using Library; 
+using Library;
 
 using StageSelection;
 
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -26,6 +27,9 @@ public class GameManager : MonoSingleton<GameManager>
         StagePreparation,
     }
 
+    [SerializeField]
+    private UnityEvent m_OnSceneLoaded = new UnityEvent();
+
     private const string savePath = "/PlayerData.xml";
 
     public GameState gameState;
@@ -35,10 +39,11 @@ public class GameManager : MonoSingleton<GameManager>
     public List<int> enemyIndexes = new List<int>();
 
     private int currentScene = 0;
+    
+    public UnityEvent onSceneLoaded { get { return m_OnSceneLoaded; } }
 
-    protected override void Awake()
+    protected override void OnAwake()
     {
-        base.Awake();
         DontDestroyOnLoad(gameObject);
         if (File.Exists(Environment.CurrentDirectory + savePath))
             Load();
@@ -93,7 +98,8 @@ public class GameManager : MonoSingleton<GameManager>
                 break;
 
             case 1:     // Stage Selection
-                StageSelectionManager.self.onStageSelectionEnd.AddListener(OnStageSelectionEnd);
+                StageSelectionManager.self.onStageSelectionEnd.AddListener
+                    (OnStageSelectionEnd);
                 gameState = GameState.StageSelection;
                 break;
 
@@ -148,5 +154,8 @@ public class GameManager : MonoSingleton<GameManager>
 
         currentScene = sceneIndex;
         AddSceneListeners();
+
+        m_OnSceneLoaded.Invoke();
     }
+
 }

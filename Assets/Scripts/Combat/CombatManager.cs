@@ -129,6 +129,8 @@
 
         private bool m_HasSlid;
 
+        public bool doCombat;
+
         public Canvas canvas { get { return m_Canvas; } }
         public RectTransform gridParentRectTransform { get { return m_GridParentRectTransform; } }
         public VerticalLayoutGroup rowParent { get { return m_RowParent; } }
@@ -166,23 +168,26 @@
             if (m_Canvas == null)
                 m_Canvas = FindObjectOfType<Canvas>();
 
-            var managerEnemies = GameManager.self.enemyIndexes;
-
-            for (var i = 0; i < managerEnemies.Count; i++)
+            if (doCombat)
             {
-                var enemyPrefab = enemyPrefabList[managerEnemies[i]];
-                var enemyObject =
-                    Instantiate(
-                        enemyPrefab,
-                        new Vector3(managerEnemies.Count / 2 - i, .5f, 0),
-                        enemyPrefab.transform.rotation);
+                var managerEnemies = GameManager.self.enemyIndexes;
 
-                var enemyMono = enemyObject.GetComponent<EnemyMono>();
-                enemyMono.enemy = new Enemy();
-                enemies.Add(enemyMono);
-                m_OnCombatBegin.AddListener(enemyMono.enemy.OnCombatBegin);
+                for (var i = 0; i < managerEnemies.Count; i++)
+                {
+                    var enemyPrefab = enemyPrefabList[managerEnemies[i]];
+                    var enemyObject =
+                        Instantiate(
+                            enemyPrefab,
+                            new Vector3(managerEnemies.Count / 2 - i, .5f, 0),
+                            enemyPrefab.transform.rotation);
+
+                    var enemyMono = enemyObject.GetComponent<EnemyMono>();
+                    enemyMono.enemy = new Enemy();
+                    enemies.Add(enemyMono);
+                    m_OnCombatBegin.AddListener(enemyMono.enemy.OnCombatBegin);
+                }
+                GameManager.self.enemyIndexes = new List<int>();
             }
-            GameManager.self.enemyIndexes = new List<int>();
 
             if (m_GridParentRectTransform == null)
                 m_GridParentRectTransform = m_Canvas.GetComponent<RectTransform>();
@@ -259,13 +264,30 @@
 
         private void OnMatch(MatchInformation matchInfo)
         {
-            var dam = GameManager.self.playerData.attack.totalValue*(1 + (matchInfo.gems.Count - 3)*.25f);
+            if (!doCombat)
+                return;
 
-            enemies[0].enemy.TakeDamage(dam, matchInfo.type);
+            switch (combatMode)
+            {
+                case CombatMode.Attack:
+                    var dam = GameManager.self.playerData.attack.totalValue *
+                        (1 + (matchInfo.gems.Count - 3) * .25f);
+
+                    enemies[0].enemy.TakeDamage(dam, matchInfo.type);
+                    break;
+
+                case CombatMode.Defense:
+                    GameManager.self.playerData.defense.modifier += matchInfo.gems.Count*5;
+                    break;
+            }
+            
         }
 
         private void OnCombatUpdate()
         {
+            if (!doCombat)
+                return;
+
             // Win
             if (enemies.Count == 0)
             {
@@ -291,6 +313,8 @@
             }
 
             enemies = finalList;
+
+            GameManager.self.playerData.DecaySheild();
         }
 
         protected override void OnBeginDrag(DragInformation dragInfo)

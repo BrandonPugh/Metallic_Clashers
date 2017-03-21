@@ -15,6 +15,8 @@
         [SerializeField]
         private GridCollection m_GridCollection;
 
+        private static bool s_Initialized;
+
         public GridCollection gridCollection { get { return m_GridCollection; } }
 
         private Vector2 m_PositionOffset;
@@ -139,7 +141,11 @@
 
         public static void Init()
         {
+            if (s_Initialized)
+                return;
+
             GridCollection.onCreate.AddListener(OnCreateGridCollection);
+            s_Initialized = true;
         }
 
         private static void OnCreateGridCollection(GridCollection newGridCollection)

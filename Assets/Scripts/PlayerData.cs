@@ -16,6 +16,8 @@ public class PlayerData
 
     public Attribute defense;
 
+    public float decayRate;
+
     public List<GemType> resistances;
     public List<GemType> weaknesses;
 
@@ -30,8 +32,15 @@ public class PlayerData
 
     public void TakeDamage(float damage, GemType gemType)
     {
-        var percentage = damage / defense.totalValue;
-        var finalDamage =  damage * Mathf.Clamp(percentage, 0f, 1f);
+        var finalDamage = damage - defense.totalValue;
+        defense.modifier -= damage;
+        if (defense.modifier < -defense.value)
+        {
+            defense.modifier = -defense.value;
+        }
+
+        if (finalDamage <= 0)
+            return;
 
         if (resistances.Contains(gemType))
         {
@@ -44,5 +53,22 @@ public class PlayerData
         }
 
         health.modifier -= finalDamage;
+    }
+
+    public void DecaySheild()
+    {
+        if (defense.modifier > 0)
+        {
+            defense.modifier -= decayRate * Time.deltaTime;
+            if (defense.modifier < 0)
+            {
+                defense.modifier = 0;
+            }
+        }
+
+        if (defense.modifier > defense.value*20)
+        {
+            defense.modifier = defense.value*20;
+        }
     }
 }

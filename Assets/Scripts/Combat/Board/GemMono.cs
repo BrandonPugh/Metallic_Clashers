@@ -25,6 +25,8 @@
         [SerializeField]
         protected Gem m_Gem;
 
+        private static bool s_Initialized;
+
         protected Vector2 m_CurrentPosition;
         private IEnumerator m_MoveToPositionCoroutine;
 
@@ -276,7 +278,11 @@
 
         public static void Init()
         {
+            if (s_Initialized)
+                return;
+
             Gem.onCreate.AddListener(OnCreateGem);
+            s_Initialized = true;
         }
 
         private static void OnCreateGem(Gem newGem)

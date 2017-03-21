@@ -52,10 +52,8 @@
         public DragEvent onDrag { get { return m_OnDrag; } }
         public DragEvent onEndDrag { get { return m_OnEndDrag; } }
 
-        protected override void Awake()
+        protected override void OnAwake()
         {
-            base.Awake();
-
             DontDestroyOnLoad(gameObject);
         }
 

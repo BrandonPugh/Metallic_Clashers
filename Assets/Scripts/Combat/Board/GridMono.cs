@@ -25,6 +25,8 @@
         [SerializeField]
         private GridResizeEvent m_OnGridResize = new GridResizeEvent();
 
+        private static bool s_Initilized;
+
         private Vector2 m_PreviousRectSize;
 
         private bool m_GemsAreAnimating;
@@ -115,7 +117,11 @@
 
         public static void Init()
         {
+            if (s_Initilized)
+                return;
+
             Grid.onCreate.AddListener(OnGridCreate);
+            s_Initilized = true;
         }
 
         private static void OnGridCreate(Grid newGrid)

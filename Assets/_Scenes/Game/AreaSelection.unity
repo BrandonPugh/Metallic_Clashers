@@ -132,7 +132,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1521421769480502, guid: 6c86cf7b4241d5445bbc9591032f5e9a, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c86cf7b4241d5445bbc9591032f5e9a, type: 2}
@@ -241,7 +241,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1357477400383080, guid: 13f28409c2a16c04abcb05d81141243b, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 13f28409c2a16c04abcb05d81141243b, type: 2}
@@ -287,34 +287,42 @@ MonoBehaviour:
       isComplete: 1
       stageNumber: 1
       worldIndex: 0
+      enemyInts: 
     - normalizedPosition: {x: 0, y: 1}
       isComplete: 0
       stageNumber: 2
       worldIndex: 0
+      enemyInts: 
     - normalizedPosition: {x: 0, y: 2}
       isComplete: 0
       stageNumber: 3
       worldIndex: 0
+      enemyInts: 
     - normalizedPosition: {x: 0, y: 3}
       isComplete: 0
       stageNumber: Boss
       worldIndex: 0
+      enemyInts: 
     - normalizedPosition: {x: 1, y: 0}
       isComplete: 0
       stageNumber: 1A
       worldIndex: 0
+      enemyInts: 
     - normalizedPosition: {x: -1, y: 1}
       isComplete: 0
       stageNumber: 2A
       worldIndex: 0
+      enemyInts: 
     - normalizedPosition: {x: -2, y: 1}
       isComplete: 0
       stageNumber: 2B
       worldIndex: 0
+      enemyInts: 
     - normalizedPosition: {x: 1, y: 2}
       isComplete: 0
       stageNumber: 3A
       worldIndex: 0
+      enemyInts: 
   spacingMagnitude: 110
   currentworld: 0
 --- !u!4 &889844952

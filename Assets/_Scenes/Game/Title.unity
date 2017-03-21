@@ -91,7 +91,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &164777300
+--- !u!1001 &127007775
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -130,6 +130,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 114510483964008110, guid: 6c86cf7b4241d5445bbc9591032f5e9a,
+        type: 2}
+      propertyPath: m_OverlayCanvs
+      value: 
+      objectReference: {fileID: 715590975}
+    - target: {fileID: 114510483964008110, guid: 6c86cf7b4241d5445bbc9591032f5e9a,
+        type: 2}
+      propertyPath: overlayCanvs
+      value: 
+      objectReference: {fileID: 715590975}
     m_RemovedComponents:
     - {fileID: 114510483964008110, guid: 6c86cf7b4241d5445bbc9591032f5e9a, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 6c86cf7b4241d5445bbc9591032f5e9a, type: 2}

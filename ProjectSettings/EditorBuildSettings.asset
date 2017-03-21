@@ -7,7 +7,3 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/_Scenes/Ben/Combat.unity
-  - enabled: 0
-    path: Assets/_Scenes/Tony.unity
-  - enabled: 0
-    path: Assets/_Scenes/Brock.unity
