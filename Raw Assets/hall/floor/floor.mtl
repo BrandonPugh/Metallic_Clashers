@@ -1,37 +1,11 @@
-newmtl blinn1SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd initialShadingGroup_Base_Color.tga
-map_Ka wall_occlusion.tga
-bump initialShadingGroup_Normal_DirectX.tga -bm 1
-Ni 1.00
-Ks 0.00 0.00 0.00
-map_Ks initialShadingGroup_Metallic.tga
-newmtl blinn2SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd door_low_initialShadingGroup_AlbedoTransparency.tga
-map_Ka initialShadingGroup_Ambient_occlusion.tga
-bump door_low_initialShadingGroup_Normal.tga -bm 1
-Ni 1.00
-Ks 0.00 0.00 0.00
-map_Ks door_low_initialShadingGroup_MetallicSmoothness.tga
-newmtl blinn3SG
-illum 4
-Kd 0.00 0.00 0.00
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-map_Kd initialShadingGroup_Base_Color.tga
-Ni 1.00
-Ks 0.00 0.00 0.00
-map_Ks initialShadingGroup_Metallic.tga
 newmtl initialShadingGroup
-illum 4
-Kd 0.50 0.50 0.50
-Ka 0.00 0.00 0.00
-Tf 1.00 1.00 1.00
-Ni 1.00
+Ns 100.000
+d 1.00000
+illum 2
+Kd 1.00000 1.00000 1.00000
+Ka 0.00000 0.00000 0.00000
+Ks 1.00000 1.00000 1.00000
+Ke 0.00000e+0 0.00000e+0 0.00000e+0
+map_Kd floor_Albedo.tga
+bump floor_Height.tga
+map_bump floor_Normal.tga

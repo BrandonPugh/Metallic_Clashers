@@ -84,7 +84,7 @@
 
         public T GetComponent<T>() where T : IComponent
         {
-            return (T)components.First(component => component is T);
+            return (T)m_Components.FirstOrDefault(component => component is T);
         }
     }
 

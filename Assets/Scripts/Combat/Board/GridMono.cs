@@ -28,7 +28,7 @@
         private Vector2 m_PreviousRectSize;
 
         private bool m_GemsAreAnimating;
-        private List<IEnumerator> m_GemMatchAnimations = new List<IEnumerator>();
+        private List<GemMono> m_MatchingGemMonos = new List<GemMono>();
 
         private bool m_GemsAreMatching;
         private IEnumerator m_WaitToCheckForMatch;
@@ -41,7 +41,7 @@
         public GridResizeEvent onGridResize { get { return m_OnGridResize; } }
 
         public bool gemsAreAnimating { get { return m_GemsAreAnimating; } }
-        public List<IEnumerator> gemMatchAnimations { get { return m_GemMatchAnimations; } }
+        public List<GemMono> matchingGemMonos { get { return m_MatchingGemMonos; } }
 
         private void LateUpdate()
         {
@@ -56,15 +56,18 @@
 
         private void OnCombatUpdate()
         {
-            if (m_GemMatchAnimations.Count != 0)
+            if (m_MatchingGemMonos.Count != 0)
             {
                 m_GemsAreAnimating = true;
                 m_GemsAreMatching = true;
 
-                var tempList = m_GemMatchAnimations.ToList();
-                foreach (var gemMatchAnimation in tempList)
-                    if (!gemMatchAnimation.MoveNext())
-                        m_GemMatchAnimations.Remove(gemMatchAnimation);
+                var tempList = m_MatchingGemMonos.ToList();
+                foreach (var matchingGemMono in tempList)
+                    if (!matchingGemMono.matchAnimationCoroutine.MoveNext())
+                    {
+                        grid[(int)matchingGemMono.position.y][(int)matchingGemMono.position.x] = null;
+                        m_MatchingGemMonos.Remove(matchingGemMono);
+                    }
             }
             else if (m_GemsAreMatching)
             {

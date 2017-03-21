@@ -28,6 +28,8 @@
         protected Vector2 m_CurrentPosition;
         private IEnumerator m_MoveToPositionCoroutine;
 
+        private IEnumerator m_MatchAnimationCoroutine;
+
         protected bool m_PositionIsDirty;
 
         private GemMonoDuplicate m_GemMonoDuplicate;
@@ -45,10 +47,7 @@
         public GemType gemType { get { return m_Gem.gemType; } set { m_Gem.gemType = value; } }
 
         public Row row { get { return m_Gem.row; } }
-        public GridCollectionMono rowMono
-        {
-            get { return row.GetComponent<GridCollectionMono>(); }
-        }
+        public GridCollectionMono rowMono { get { return row.GetComponent<GridCollectionMono>(); } }
 
         public Column column { get { return m_Gem.column; } }
         public GridCollectionMono columnMono { get { return column.GetComponent<GridCollectionMono>(); } }
@@ -60,6 +59,8 @@
         }
 
         public IEnumerator moveToPositionCoroutine { get { return m_MoveToPositionCoroutine; } }
+
+        public IEnumerator matchAnimationCoroutine { get { return m_MatchAnimationCoroutine; } }
 
         public bool positionIsDirty { get { return m_PositionIsDirty; } set { m_PositionIsDirty = value; } }
 
@@ -158,7 +159,10 @@
         protected void OnMatch(MatchInformation matchInfo)
         {
             if (matchInfo.gems.Any(matchInfoGem => matchInfoGem == m_Gem))
-                gridMono.gemMatchAnimations.Add(MatchAnimation());
+            {
+                m_MatchAnimationCoroutine = MatchAnimation();
+                gridMono.matchingGemMonos.Add(this);
+            }
         }
 
         private void OnGridResize(GridResizeInformation gridResizeInformation)
@@ -210,6 +214,8 @@
 
             m_RectTransform.anchoredPosition =
                 m_CurrentPosition + rowMono.positionOffset + columnMono.positionOffset;
+
+            m_PositionIsDirty = false;
         }
 
         private IEnumerator MoveToPosition(Vector2 newPosition)

@@ -270,7 +270,7 @@
             if (enemies.Count == 0)
             {
                 onCombatEnd.Invoke();
-                
+
                 return;
             }
 

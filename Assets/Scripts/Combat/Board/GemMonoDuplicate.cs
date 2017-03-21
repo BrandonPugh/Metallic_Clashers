@@ -27,6 +27,8 @@
 
             m_RectTransform.anchoredPosition =
                 offsetPosition + rowMono.positionOffset + columnMono.positionOffset;
+
+            m_PositionIsDirty = false;
         }
 
         public new static void Init()

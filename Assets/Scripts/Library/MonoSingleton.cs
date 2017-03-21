@@ -6,11 +6,10 @@ using UnityEngine;
 
 namespace Library
 {
-    using System.Linq;
-
     public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static bool s_IsQuitting;
+        private static int s_InstanceCount;
 
         private static T s_Self;
 
@@ -21,13 +20,8 @@ namespace Library
                 if (s_IsQuitting)
                     return null;
 
-                var singletons = FindObjectsOfType<T>().ToList();
                 if (s_Self == null)
-                    s_Self = singletons.First();
-                else
-                    foreach (var singleton in singletons)
-                        if (singleton != s_Self)
-                            Destroy(singleton.gameObject);
+                    s_Self = FindObjectOfType<T>();
 
                 return s_Self;
             }
@@ -37,13 +31,14 @@ namespace Library
 
         protected virtual void Awake()
         {
+            if (s_Self == null)
+                s_Self = this as T;
+            else if (s_Self != this)
+                Destroy(gameObject);
+
             s_IsQuitting = false;
         }
 
-        protected virtual void OnDestroy()
-        {
-            s_IsQuitting = true;
-            s_Self = null;
-        }
+        protected virtual void OnApplicationQuit() { s_IsQuitting = true; }
     }
 }

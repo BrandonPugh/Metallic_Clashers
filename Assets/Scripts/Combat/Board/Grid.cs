@@ -247,9 +247,6 @@
                         gems = matchGems,
                         type = match.gem.gemType,
                     });
-
-                foreach (var matchGem in matchGems)
-                    m_GemLists[(int)matchGem.position.y][(int)matchGem.position.x] = null;
             }
 
             return matches.Count != 0;
