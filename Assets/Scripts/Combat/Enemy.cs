@@ -97,12 +97,12 @@ namespace Combat
             var percentage = damage / defense.totalValue;
             var finalDamage = damage * Mathf.Clamp(percentage, 0f, 1f);
 
-            if (resistances.Contains(gemType))
+            if (resistances != null && resistances.Contains(gemType))
             {
                 finalDamage *= .75f;
             }
 
-            else if (weaknesses.Contains(gemType))
+            else if (weaknesses != null && weaknesses.Contains(gemType))
             {
                 finalDamage *= 1.25f;
             }

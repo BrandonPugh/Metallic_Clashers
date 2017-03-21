@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using Input.Information;
-
     using JetBrains.Annotations;
 
     using UnityEngine;
@@ -15,8 +13,7 @@
 
     using Board;
     using Board.Information;
-
-    using UnityEngine.Serialization;
+    using CustomInput.Information;
 
     public class CombatManager : SubManager<CombatManager>
     {
@@ -141,7 +138,7 @@
 
         public CombatMode combatMode { get { return m_CombatMode; } }
 
-        public List<Enemy> enemies = new List<Enemy>();
+        public List<EnemyMono> enemies = new List<EnemyMono>();
 
         public UnityEvent onCombatBegin { get { return m_OnCombatBegin; } }
         public UnityEvent onCombatUpdate { get { return m_OnCombatUpdate; } }
@@ -162,23 +159,30 @@
 
         public GridMono gridMono { get { return m_GridMono; } }
 
-        public GameObject enemyPrefab;
+        public List<GameObject> enemyPrefabList = new List<GameObject>();
 
         protected override void Init()
         {
             if (m_Canvas == null)
                 m_Canvas = FindObjectOfType<Canvas>();
 
-            //TODO: Initialize Combat
+            var managerEnemies = GameManager.self.enemyIndexes;
 
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < managerEnemies.Count; i++)
             {
-                var enemyObject = Instantiate(enemyPrefab, new Vector3(i - 1, .5f, 0), enemyPrefab.transform.rotation);
+                var enemyPrefab = enemyPrefabList[managerEnemies[i]];
+                var enemyObject =
+                    Instantiate(
+                        enemyPrefab,
+                        new Vector3(managerEnemies.Count / 2 - i, .5f, 0),
+                        enemyPrefab.transform.rotation);
+
                 var enemyMono = enemyObject.GetComponent<EnemyMono>();
                 enemyMono.enemy = new Enemy();
-                enemies.Add(enemyMono.enemy);
+                enemies.Add(enemyMono);
                 m_OnCombatBegin.AddListener(enemyMono.enemy.OnCombatBegin);
             }
+            GameManager.self.enemyIndexes = new List<int>();
 
             if (m_GridParentRectTransform == null)
                 m_GridParentRectTransform = m_Canvas.GetComponent<RectTransform>();
@@ -194,6 +198,8 @@
             m_GridMono = newGrid.GetComponent<GridMono>();
 
             m_GridMono.grid.onSlide.AddListener(OnSlide);
+            m_GridMono.grid.onMatch.AddListener(OnMatch);
+            onCombatUpdate.AddListener(OnCombatUpdate);
         }
 
         private void Update()
@@ -251,12 +257,48 @@
             m_HasSlid = true;
         }
 
+        private void OnMatch(MatchInformation matchInfo)
+        {
+            var dam = GameManager.self.playerData.attack.totalValue*(1 + (matchInfo.gems.Count - 3)*.25f);
+
+            enemies[0].enemy.TakeDamage(dam, matchInfo.type);
+        }
+
+        private void OnCombatUpdate()
+        {
+            // Win
+            if (enemies.Count == 0)
+            {
+                onCombatEnd.Invoke();
+                
+                return;
+            }
+
+            // Lose
+            if(GameManager.self.playerData.health.totalValue <= 0)
+            {
+                onCombatEnd.Invoke();
+                return;
+            }
+
+            var destroyList = enemies.Where(e => e.enemy.health.totalValue <= 0).ToList();
+
+            var finalList = enemies.Where(e => !destroyList.Contains(e)).ToList();
+
+            foreach (var d in destroyList)
+            {
+                Destroy(d.gameObject);
+            }
+
+            enemies = finalList;
+        }
+
         protected override void OnBeginDrag(DragInformation dragInfo)
         {
             var hitMonos = RayCastToGridCollectionMono(dragInfo.origin).ToList();
 
             // If we didn't hit a GemMono first
-            if (hitMonos.Count == 0)
+            if (!hitMonos.Any())
             {
                 m_LockedGridCollectionMono = null;
                 return;
@@ -308,8 +350,8 @@
             EventSystem.current.RaycastAll(pointerEventData, hits);
 
             // If nothing was hit
-            if (hits.Count <= 0)
-                return null;
+            if (!hits.Any())
+                return new GridCollectionMono[] { };
 
             // Return the first hit object's GridCollectionMono component
             // Will be null if one was not found on the game object

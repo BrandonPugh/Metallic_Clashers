@@ -1,5 +1,6 @@
-﻿using Input;
-using Input.Information;
+﻿using CustomInput;
+using CustomInput.Information;
+
 using Library;
 
 using UnityEngine;

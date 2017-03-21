@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4202055453174718}
   - component: {fileID: 114245420580760474}
+  - component: {fileID: 114510483964008110}
   m_Layer: 0
   m_Name: Input Manager
   m_TagString: Untagged
@@ -55,30 +56,44 @@ MonoBehaviour:
   m_OnPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Input.TouchEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: CustomInput.TouchEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_OnRelease:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Input.TouchEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: CustomInput.TouchEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_OnHold:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Input.TouchEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: CustomInput.TouchEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_OnBeginDrag:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Input.DragEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: CustomInput.DragEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_OnDrag:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Input.DragEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: CustomInput.DragEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_OnEndDrag:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Input.DragEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: CustomInput.DragEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+--- !u!114 &114510483964008110
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1521421769480502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 065596f938a014a4fa08a64d6a7d00e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverlayCanvs: {fileID: 0}
+  m_ParticleSystem2DPrefab: {fileID: 114170065718566366, guid: 44aed449f90225440be3f4d7ad5b484c,
+    type: 2}

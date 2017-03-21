@@ -4,10 +4,11 @@
     using System.Collections;
     using System.Collections.Generic;
 
-    using Input.Information;
+    using CustomInput.Information;
 
     using UnityEngine;
     using UnityEngine.Events;
+    using UnityEngine.EventSystems;
     using UnityEngine.UI;
 
     [Serializable]
@@ -38,14 +39,14 @@
                     {
                         nodes = new List<Node>
                         {
-                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), worldIndex = 1},
-                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1), worldIndex = 1},
-                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2), worldIndex = 1},
-                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3), worldIndex = 1},
-                            new Node {stageNumber = "1A", normalizedPosition = new Vector2(1, 0), worldIndex = 1},
-                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1), worldIndex = 1},
-                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(-2, 1), worldIndex = 1},
-                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(1, 2), worldIndex = 1},
+                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1), worldIndex = 1, enemyInts = new List<int> {1,1,1}},
+                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3), worldIndex = 1, enemyInts = new List<int> {0}},
+                            new Node {stageNumber = "1A", normalizedPosition = new Vector2(1, 0), worldIndex = 1, enemyInts = new List<int> {0}},
+                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(-2, 1), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(1, 2), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
                         }
                     }
                     ,
@@ -54,14 +55,14 @@
                     {
                         nodes = new List<Node>
                         {
-                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), worldIndex = 2},
-                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1), worldIndex = 2},
-                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2), worldIndex = 2},
-                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3), worldIndex = 2},
-                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1), worldIndex = 2},
-                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(-1, 2), worldIndex = 2},
-                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(1, 1), worldIndex = 2},
-                            new Node {stageNumber = "3B", normalizedPosition = new Vector2(1, 2), worldIndex = 2},
+                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(-1, 2), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(1, 1), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "3B", normalizedPosition = new Vector2(1, 2), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
                         }
                     }
                 };
@@ -76,7 +77,6 @@
             LinkNodes(worlds[0].nodes[1], worlds[0].nodes[5]);
             LinkNodes(worlds[0].nodes[5], worlds[0].nodes[6]);
             LinkNodes(worlds[0].nodes[2], worlds[0].nodes[7]);
-
 
             //Link
             LinkNodes(worlds[0].nodes[3], worlds[1].nodes[0]);
@@ -98,7 +98,7 @@
             {
                 var nodeGameObjects = new List<GameObject>();
                 foreach (var n in tree.nodes)
-                { 
+                {
 
                     var nodeObject = Instantiate(nodePrefab);
 
@@ -211,6 +211,9 @@
 
         public void OnStageSelectionEnd() //Awake for the Manager
         {
+            var node = EventSystem.current.currentSelectedGameObject.GetComponent<MonoNode>().node;
+
+            GameManager.self.enemyIndexes = node.enemyInts;
             onStageSelectionEnd.Invoke();
         }
 
@@ -219,7 +222,6 @@
             n1.nextNodes.Add(n2);
             n2.prevNodes.Add(n1);
         }
-
 
         protected override void OnEndDrag(DragInformation dragInfo)
         {

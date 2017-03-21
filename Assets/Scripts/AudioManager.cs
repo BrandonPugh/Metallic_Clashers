@@ -1,7 +1,8 @@
-﻿using Input.Information;
-
-using StageSelection;
+﻿using StageSelection;
 using System.Collections.Generic;
+
+using CustomInput.Information;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,6 +14,8 @@ public class AudioManager : SubManager<AudioManager>
 
     private AudioSource m_MusicSource;
     private AudioSource m_MenuSource;
+    private bool m_MuteMusic;
+    private bool m_MuteSoundEffects;
 
     public void ChangeMusic(int sceneIndex)
     {
@@ -27,6 +30,9 @@ public class AudioManager : SubManager<AudioManager>
 
     protected override void OnPress(TouchInformation touchInfo)
     {
+        if (m_MuteSoundEffects)
+            return;
+
         m_MenuSource.clip = clickSound;
         if (EventSystem.current != null)
         {
@@ -49,8 +55,31 @@ public class AudioManager : SubManager<AudioManager>
 
     public void PlayDragSound()
     {
+        if (m_MuteSoundEffects)
+            return;
         m_MenuSource.clip = dragSound;
         m_MenuSource.Play();
+    }
+
+    public void MuteMusicToggle()
+    {
+        // Mute
+        if (m_MuteMusic == false)
+        {
+            m_MusicSource.Pause();
+        }
+        // Unmute
+        else
+        {
+            m_MusicSource.Play();
+        }
+
+        m_MuteMusic = !m_MuteMusic;
+    }
+
+    public void MuteSoundsToggle()
+    {
+        m_MuteSoundEffects = !m_MuteSoundEffects;
     }
 
     protected override void Init()

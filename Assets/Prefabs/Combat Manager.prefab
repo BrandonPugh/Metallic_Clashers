@@ -84,7 +84,12 @@ MonoBehaviour:
     - {r: 0, g: 0.61960787, b: 0.4509804, a: 1}
     - {r: 0, g: 0.44705883, b: 0.69803923, a: 1}
     - {r: 0.8, g: 0.4745098, b: 0.654902, a: 1}
-  m_UseAlternativeColors: 0
+    m_UseAlternativeColors: 0
+    m_OnUseAlternativeColorsChange:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Combat.CombatManager+UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
   m_CombatMode: 0
   m_OnCombatBegin:
     m_PersistentCalls:
@@ -116,14 +121,13 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Combat.CombatManager+UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_OnUseAlternativeColorsChange:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Combat.CombatManager+UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   m_OnPlayerTurn:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_GridMono: {fileID: 0}
+  enemies: []
+  enemyPrefabList:
+  - {fileID: 1978000353783988, guid: 05fc6f9ca8e594e429fdc6e7984fd2c6, type: 2}
+  - {fileID: 1978000353783988, guid: e4e6db6db2938154692b0ece784cb965, type: 2}

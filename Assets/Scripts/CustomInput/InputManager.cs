@@ -1,12 +1,13 @@
-﻿namespace Input
+﻿namespace CustomInput
 {
     using System;
 
-    using UnityEngine;
-    using UnityEngine.Events;
+    using Information;
 
     using Library;
-    using Information;
+
+    using UnityEngine;
+    using UnityEngine.Events;
 
     [Serializable]
     public class TouchEvent : UnityEvent<TouchInformation> { }

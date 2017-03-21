@@ -1,4 +1,4 @@
-﻿namespace Input.Information
+﻿namespace CustomInput.Information
 {
     using System;
 

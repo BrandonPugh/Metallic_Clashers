@@ -26,6 +26,8 @@
         public string stageNumber;
         [XmlIgnore]
         public int worldIndex;
+        [XmlIgnore]
+        public List<int> enemyInts = new List<int>();
     }
 
     public class MonoNode : MonoBehaviour
