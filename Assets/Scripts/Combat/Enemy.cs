@@ -60,7 +60,7 @@ namespace Combat
         public void OnCombatBegin()
         {
             CombatManager.self.onPlayerTurn.AddListener(OnPlayerTurn);
-            CombatManager.self.onCombatEnd.AddListener(OnCombatEnd);
+            //CombatManager.self.onCombatEnd.AddListener(OnCombatEnd);
             CombatManager.self.onCombatUpdate.AddListener(OnCombatUpdate);
         }
 
@@ -71,11 +71,6 @@ namespace Combat
             if (attackCountdown > 0) return;
             Attack();
             attackCountdown = attackSpeed;
-        }
-
-        private void OnCombatEnd()
-        {
-            //TODO: Define what the enemy should do here. Possibly Nothing.
         }
 
         private void OnPlayerTurn()

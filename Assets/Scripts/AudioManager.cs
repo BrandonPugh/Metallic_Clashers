@@ -88,7 +88,5 @@ public class AudioManager : SubManager<AudioManager>
 
         m_MenuSource = gameObject.AddComponent<AudioSource>();
         m_MenuSource.clip = clickSound;
-
-        ChangeMusic(0);
     }
 }

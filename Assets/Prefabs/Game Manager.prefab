@@ -71,6 +71,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a1947a78698404c8217774f2f6f661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnSceneLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   gameState: 0
   playerData:
     health:
@@ -85,48 +90,62 @@ MonoBehaviour:
       value: 10
       modifier: 0
       coefficient: 1
+    decayRate: 0
     resistances: 
     weaknesses: 
     gemSkills: []
     worldData:
     - nodes:
       - normalizedPosition: {x: 0, y: 0}
-        isComplete: 1
+        isComplete: 0
         stageNumber: 
         worldIndex: 0
-      - normalizedPosition: {x: 0, y: 0}
-        isComplete: 1
-        stageNumber: 
-        worldIndex: 0
+        enemyInts: 
       - normalizedPosition: {x: 0, y: 0}
         isComplete: 0
         stageNumber: 
         worldIndex: 0
+        enemyInts: 
       - normalizedPosition: {x: 0, y: 0}
         isComplete: 0
         stageNumber: 
         worldIndex: 0
+        enemyInts: 
       - normalizedPosition: {x: 0, y: 0}
         isComplete: 0
         stageNumber: 
         worldIndex: 0
+        enemyInts: 
       - normalizedPosition: {x: 0, y: 0}
         isComplete: 0
         stageNumber: 
         worldIndex: 0
+        enemyInts: 
       - normalizedPosition: {x: 0, y: 0}
         isComplete: 0
         stageNumber: 
         worldIndex: 0
+        enemyInts: 
       - normalizedPosition: {x: 0, y: 0}
         isComplete: 0
         stageNumber: 
         worldIndex: 0
+        enemyInts: 
+      - normalizedPosition: {x: 0, y: 0}
+        isComplete: 0
+        stageNumber: 
+        worldIndex: 0
+        enemyInts: 
+    staminaInformation:
+      value: 0
+      timeLastPlayed: 
+      maxValue: 0
     playerLevelSystem:
       playerLevelInfo:
         level: 0
         currentExperience: 0
         experienceRequired: 0
+  enemyIndexes: 
 --- !u!114 &114796631700178808
 MonoBehaviour:
   m_ObjectHideFlags: 1

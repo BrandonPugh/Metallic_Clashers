@@ -209,7 +209,7 @@
             }
         }
 
-        public void OnStageSelectionEnd() //Awake for the Manager
+        public void OnStageSelectionEnd()
         {
             var node = EventSystem.current.currentSelectedGameObject.GetComponent<MonoNode>().node;
 

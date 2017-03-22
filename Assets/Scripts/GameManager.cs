@@ -7,8 +7,6 @@ using System.Xml.Serialization;
 
 using Combat;
 
-using CustomInput;
-
 using Library;
 
 using StageSelection;
@@ -24,13 +22,14 @@ public class GameManager : MonoSingleton<GameManager>
         Combat = 2,
         MainMenu = 0,
         StageSelection = 1,
-        StagePreparation,
+        //StagePreparation,
     }
 
     [SerializeField]
     private UnityEvent m_OnSceneLoaded = new UnityEvent();
 
     private const string savePath = "/PlayerData.xml";
+    private int m_CurrentScene = 0;
 
     public GameState gameState;
 
@@ -38,7 +37,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public List<int> enemyIndexes = new List<int>();
 
-    private int currentScene = 0;
+    
     
     public UnityEvent onSceneLoaded { get { return m_OnSceneLoaded; } }
 
@@ -58,6 +57,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
         gameState = GameState.MainMenu;
         AddSceneListeners();
+        onSceneLoaded.AddListener(AddSceneListeners);
     }
 
     //private void OnApplicationQuit()
@@ -80,17 +80,19 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void AddSceneListeners()
     {
-        switch (currentScene)
+        switch (m_CurrentScene)
         {
             case 2:     // Combat
                 playerData.health.modifier = 0;
                 CombatManager.self.onCombatEnd.AddListener(OnCombatEnd);
                 CombatManager.self.onPlayerTurn.AddListener(AudioManager.self.PlayDragSound);
                 gameState = GameState.Combat;
+                
                 // Toggle Music Button
                 GameObject.Find("Menu Button").transform.FindChild("Icon Layout Group")
                     .FindChild("Music Button").gameObject.GetComponent<Button>
                     ().onClick.AddListener(AudioManager.self.MuteMusicToggle);
+               
                 // Toggle SoundEffect Button
                 GameObject.Find("Menu Button").transform.FindChild("Icon Layout Group")
                     .FindChild("Sound Effects Button").gameObject.GetComponent<Button>
@@ -102,11 +104,8 @@ public class GameManager : MonoSingleton<GameManager>
                     (OnStageSelectionEnd);
                 gameState = GameState.StageSelection;
                 break;
-
-            default:
-                break;
         }
-        AudioManager.self.ChangeMusic(currentScene);
+        AudioManager.self.ChangeMusic(m_CurrentScene);
     }
 
     [ContextMenu("Save Player")]
@@ -131,31 +130,24 @@ public class GameManager : MonoSingleton<GameManager>
         file.Close();
     }
 
-    public void LoadScene(int sceneIndex)
+    private void LoadScene(int sceneIndex)
     {
-        StartCoroutine(LoadSceneCoroutine(sceneIndex));
-    }
-
-    public bool NextScene()
-    {
-        if (currentScene >= SceneManager.sceneCountInBuildSettings)
-            return false;
-
-        StartCoroutine(LoadSceneCoroutine(currentScene + 1));
-        return true;
+        if (m_CurrentScene != sceneIndex)
+        {
+            //Coding around a problem. StageSelection double load
+            StartCoroutine(LoadSceneCoroutine(sceneIndex));
+        }        
     }
 
     private IEnumerator LoadSceneCoroutine(int sceneIndex)
     {
         var asyncOperation = SceneManager.LoadSceneAsync(sceneIndex);
-        currentScene = sceneIndex;
+        m_CurrentScene = sceneIndex;
 
         while (!asyncOperation.isDone) { yield return null; }
 
-        currentScene = sceneIndex;
-        AddSceneListeners();
-
-        m_OnSceneLoaded.Invoke();
+        m_CurrentScene = sceneIndex;
+        onSceneLoaded.Invoke();
     }
 
 }
