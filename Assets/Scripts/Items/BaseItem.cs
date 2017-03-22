@@ -7,45 +7,35 @@ namespace Items
     [Serializable]
     public class BaseItem
     {
-        protected bool m_Alive;
-        protected float m_Age; //current durabilities max value.
+        protected bool m_Alive;  //states if the item can be destroied or not
+        protected float m_Age;   //current durabilities max value.
         public float durability; //how long the item will last.
-        public float modifier; //value that will "modify" player attribute(s).
+        public float modifier;   //value that will "modify" player attribute(s).
 
-        public bool Alive
-        {
-            get { return m_Alive; }
-        }
+        public bool Alive { get { return m_Alive; } }
         public virtual void UseItem() {}
     }
 
     [Serializable]
-    public class InstantItem : BaseItem //just remove, not destroy
+    public class InstantItem : BaseItem
     {
-        public InstantItem(float mod)
-        {
-            modifier = mod;
-        }
+        public InstantItem(float mod) { modifier = mod; }
 
         public override void UseItem()
         {
             var healValue = GameManager.self.playerData.health.value * modifier;
             GameManager.self.playerData.health.modifier += healValue;
-            if (GameManager.self.playerData.health.modifier > 0)
-            {
-                GameManager.self.playerData.health.modifier = 0;
-            }
+            if (GameManager.self.playerData.health.modifier > 0) { GameManager.self.playerData.health.modifier = 0; }
             m_Alive = false;
         }
+
+        //for instant items, just remove them. do not destroy them.
     }
 
     [Serializable]
-    public class TurnBased : BaseItem //possible void type needed for event
+    public class TurnBased : BaseItem
     {
-        public virtual void UpdateSelf()
-        {
-            m_Age++;
-        }
+        public virtual void UpdateSelf() { m_Age++; }
     }
 
     [Serializable]
@@ -53,18 +43,13 @@ namespace Items
     {
         public bool itemStatType;
 
-        public TurnBuff(float dur, float mod, bool type)
-        {
-            durability = dur;
-            modifier = mod;
-            itemStatType = type;
-        }
+        public TurnBuff(float dur, float mod, bool type) { durability = dur; modifier = mod; itemStatType = type; }
 
         public override void UseItem()
         {
             switch (itemStatType)
             {
-            case true: //attack buff case
+            case true:  //attack buff case
                 var attackValue = GameManager.self.playerData.attack.value * modifier;
                 GameManager.self.playerData.attack.modifier += attackValue;
                 break;
@@ -72,6 +57,8 @@ namespace Items
                 var defenseValue = GameManager.self.playerData.defense.value * modifier;
                 GameManager.self.playerData.defense.modifier += defenseValue;
                 break;
+            default:
+                    break;
             }
         }
 
@@ -79,21 +66,18 @@ namespace Items
         {
             base.UpdateSelf();
 
-            if (m_Age < durability)
-                m_Alive = true;
-
+            if (m_Age < durability) { m_Alive = true; }
+                
             switch (itemStatType)
             {
-            case true:
+            case true:  //attack buff case
                 GameManager.self.playerData.attack.modifier -= GameManager.self.playerData.attack.value * modifier;
                 m_Alive = false;
                 break;
-
-            case false:
+            case false: //defense buff case
                 GameManager.self.playerData.defense.modifier -= GameManager.self.playerData.defense.value * modifier;
                 m_Alive = false;
                 break;
-
             default:
                 m_Alive = false;
                 break;
@@ -102,12 +86,9 @@ namespace Items
     }
 
     [Serializable]
-    public class TimeBased : BaseItem //possible void type needed for event
+    public class TimeBased : BaseItem 
     {
-        public virtual void UpdateSelf(float value)
-        {
-            m_Age += value;
-        }
+        public virtual void UpdateSelf(float value) { m_Age += value; }
     }
 
     [Serializable]
@@ -115,18 +96,13 @@ namespace Items
     {
         public bool itemStatType;
 
-        public TimeBuff(float dur, float mod, bool type)
-        {
-            durability = dur;
-            modifier = mod;
-            itemStatType = type;
-        }
+        public TimeBuff(float dur, float mod, bool type) { durability = dur; modifier = mod; itemStatType = type; }
 
         public override void UseItem()
         {
             switch (itemStatType)
             {
-            case true: //attack buff case
+            case true:  //attack buff case
                 var attackValue = GameManager.self.playerData.attack.value * modifier;
                 GameManager.self.playerData.attack.modifier += attackValue;
                 break;
@@ -134,27 +110,27 @@ namespace Items
                 var defenseValue = GameManager.self.playerData.defense.value * modifier;
                 GameManager.self.playerData.defense.modifier += defenseValue;
                 break;
+            default:
+                break;
             }
         }
 
         public override void UpdateSelf(float deltaTime)
         {
             base.UpdateSelf(deltaTime);
-            if (m_Age < durability)
-                m_Alive = true;
 
+            if (m_Age < durability) { m_Alive = true; }
+                
             switch (itemStatType)
             {
-            case true:
+            case true:  //attack buff case
                 GameManager.self.playerData.attack.modifier -= GameManager.self.playerData.attack.value * modifier;
                 m_Alive = false;
                 break;
-
-            case false:
+            case false: //defense buff case
                 GameManager.self.playerData.defense.modifier -= GameManager.self.playerData.defense.value * modifier;
                 m_Alive = false;
                 break;
-
             default:
                 m_Alive = false;
                 break;

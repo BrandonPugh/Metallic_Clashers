@@ -37,8 +37,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     public List<int> enemyIndexes = new List<int>();
 
-    
-    
     public UnityEvent onSceneLoaded { get { return m_OnSceneLoaded; } }
 
     protected override void OnAwake()
@@ -57,7 +55,7 @@ public class GameManager : MonoSingleton<GameManager>
         }
         gameState = GameState.MainMenu;
         AddSceneListeners();
-        onSceneLoaded.AddListener(AddSceneListeners);
+        //onSceneLoaded.AddListener(AddSceneListeners);
     }
 
     //private void OnApplicationQuit()
@@ -130,13 +128,13 @@ public class GameManager : MonoSingleton<GameManager>
         file.Close();
     }
 
-    private void LoadScene(int sceneIndex)
+    public void LoadScene(int sceneIndex)
     {
         if (m_CurrentScene != sceneIndex)
         {
-            //Coding around a problem. StageSelection double load
             StartCoroutine(LoadSceneCoroutine(sceneIndex));
-        }        
+        }
+                
     }
 
     private IEnumerator LoadSceneCoroutine(int sceneIndex)
@@ -147,6 +145,8 @@ public class GameManager : MonoSingleton<GameManager>
         while (!asyncOperation.isDone) { yield return null; }
 
         m_CurrentScene = sceneIndex;
+
+        AddSceneListeners();
         onSceneLoaded.Invoke();
     }
 

@@ -182,7 +182,6 @@
                             enemyPrefab.transform.rotation);
 
                     var enemyMono = enemyObject.GetComponent<EnemyMono>();
-                    enemyMono.enemy = new Enemy();
                     enemies.Add(enemyMono);
                     m_OnCombatBegin.AddListener(enemyMono.enemy.OnCombatBegin);
                 }
