@@ -4,11 +4,13 @@ namespace Items
 {
     using System.Collections.Generic;
 
+    using Combat;
+
     public class ItemManager
     {
         private List<BaseItem> m_ActiveList; //list of item(s) being used
         public List<BaseItem> inventory;     //list of item(s)
-        public BaseItem item;
+        public TurnBased item;
 
         public List<BaseItem> activeList { get { return m_ActiveList; } }
 
@@ -31,7 +33,18 @@ namespace Items
             item.UseItem();
 
             //currently in progress...
-            item.GetType();
+            var itemType = item.GetType();
+
+            if (itemType == typeof(TurnBased))
+            {
+                // Check Type of Item. Goal: Same as on outside of if statement.
+                CombatManager.self.onPlayerTurn.AddListener(item.UpdateSelf);
+            }
+
+            else if(itemType == typeof(TimeBased))
+            {
+                CombatManager.self.onCombatUpdate.AddListener(item.UpdateSelf);
+            }
         }
     }
 }

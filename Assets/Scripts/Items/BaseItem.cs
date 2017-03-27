@@ -57,8 +57,6 @@ namespace Items
                 var defenseValue = GameManager.self.playerData.defense.value * modifier;
                 GameManager.self.playerData.defense.modifier += defenseValue;
                 break;
-            default:
-                    break;
             }
         }
 
@@ -109,8 +107,6 @@ namespace Items
             case false: //defense buff case
                 var defenseValue = GameManager.self.playerData.defense.value * modifier;
                 GameManager.self.playerData.defense.modifier += defenseValue;
-                break;
-            default:
                 break;
             }
         }
