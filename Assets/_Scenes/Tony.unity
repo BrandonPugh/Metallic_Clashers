@@ -524,47 +524,47 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 265361869}
---- !u!1 &301233142
+--- !u!1 &283768937
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 301233143}
-  - component: {fileID: 301233145}
-  - component: {fileID: 301233144}
+  - component: {fileID: 283768938}
+  - component: {fileID: 283768940}
+  - component: {fileID: 283768939}
   m_Layer: 5
-  m_Name: Life Bar Text
+  m_Name: Sheild Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &301233143
+--- !u!224 &283768938
 RectTransform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 301233142}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 283768937}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0000005, y: 1.0000005, z: 1.0000005}
   m_Children: []
-  m_Father: {fileID: 1215622001}
+  m_Father: {fileID: 1790379625}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 155.92, y: 0}
+  m_SizeDelta: {x: -311.83, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &301233144
+--- !u!114 &283768939
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 301233142}
+  m_GameObject: {fileID: 283768937}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -592,12 +592,12 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Min / Max
---- !u!222 &301233145
+--- !u!222 &283768940
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 301233142}
+  m_GameObject: {fileID: 283768937}
 --- !u!1001 &408988980
 Prefab:
   m_ObjectHideFlags: 0
@@ -1470,7 +1470,7 @@ GameObject:
   - component: {fileID: 693947656}
   - component: {fileID: 693947655}
   m_Layer: 5
-  m_Name: Life Bar Text
+  m_Name: Life Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1487,12 +1487,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1790379625}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -147.9, y: 0}
+  m_SizeDelta: {x: -295.9, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &693947655
 MonoBehaviour:
@@ -2224,7 +2224,6 @@ RectTransform:
   - {fileID: 604365041}
   - {fileID: 265361870}
   - {fileID: 1790379625}
-  - {fileID: 1215622001}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2424,89 +2423,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
---- !u!1 &1215622000
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1215622001}
-  - component: {fileID: 1215622004}
-  - component: {fileID: 1215622003}
-  - component: {fileID: 1215622002}
-  m_Layer: 5
-  m_Name: Life Bar (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1215622001
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1215622000}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999974, y: 0.9999974, z: 0.9999974}
-  m_Children:
-  - {fileID: 301233143}
-  m_Father: {fileID: 957132496}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.56}
-  m_AnchorMax: {x: 1, y: 0.6}
-  m_AnchoredPosition: {x: 161, y: 0.000061035156}
-  m_SizeDelta: {x: -323.5, y: 0}
-  m_Pivot: {x: 0.5, y: 0}
---- !u!114 &1215622002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1215622000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72c0258e71c8b0c44a2b626ab372b3e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Image: {fileID: 0}
-  m_DefenseText: {fileID: 0}
---- !u!114 &1215622003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1215622000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.5997295, g: 0.5882353, b: 0.92156863, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &1215622004
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1215622000}
 --- !u!1 &1220771195
 GameObject:
   m_ObjectHideFlags: 0
@@ -3085,7 +3001,7 @@ GameObject:
   - component: {fileID: 1790379627}
   - component: {fileID: 1790379626}
   m_Layer: 5
-  m_Name: Life Bar
+  m_Name: Stats Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3101,14 +3017,15 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 283768938}
   - {fileID: 693947654}
   m_Father: {fileID: 957132496}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.56}
   m_AnchorMax: {x: 1, y: 0.6}
-  m_AnchoredPosition: {x: -161.7, y: 0}
-  m_SizeDelta: {x: -323.5, y: 0}
+  m_AnchoredPosition: {x: 0.025009, y: 0}
+  m_SizeDelta: {x: -0.049988, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1790379626
 MonoBehaviour:
@@ -3118,10 +3035,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1790379624}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca345e9c09ca22a4d8de3a7b068a21bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 72c0258e71c8b0c44a2b626ab372b3e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Image: {fileID: 1790379627}
+  m_DefenseText: {fileID: 283768939}
   m_HealthText: {fileID: 693947655}
 --- !u!114 &1790379627
 MonoBehaviour:

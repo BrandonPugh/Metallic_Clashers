@@ -266,17 +266,19 @@
             if (!doCombat)
                 return;
 
+            var playerData = GameManager.self.playerData;
+
             switch (combatMode)
             {
                 case CombatMode.Attack:
-                    var dam = GameManager.self.playerData.attack.totalValue *
+                    var dam = playerData.attack.totalValue *
                         (1 + (matchInfo.gems.Count - 3) * .25f);
 
                     enemies[0].enemy.TakeDamage(dam, matchInfo.type);
                     break;
 
                 case CombatMode.Defense:
-                    GameManager.self.playerData.defense.modifier += matchInfo.gems.Count*5;
+                    GameManager.self.playerData.defense.modifier += matchInfo.gems.Count*(playerData.defense.value * .5F);
                     break;
             }
             

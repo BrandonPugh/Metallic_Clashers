@@ -5,12 +5,13 @@
     using System;
 
     [RequireComponent(typeof(Image))]
-    public class CombatDefenseBar : MonoBehaviour
+    public class CombatStatsBar : MonoBehaviour
     {
-        [SerializeField]
         private Image m_Image;
         [SerializeField]
         private Text m_DefenseText;
+        [SerializeField]
+        private Text m_HealthText;
 
         // Use this for initialization
         private void Awake()
@@ -29,16 +30,19 @@
 
         private void OnCombatModeChange()
         {
-            //var color = CombatManager.self.combatUiInformation.currentModeUiInformation.modeColor;
-            //m_Image.color = (color.r > color.b) ? Color.blue : Color.red;
+            var color = CombatManager.self.combatUiInformation.currentModeUiInformation.modeColor;
+            m_Image.color = color;
         }
 
         private void OnCombatUpdate()
         {
-            var playerDefense = GameManager.self.playerData.defense;
-            m_DefenseText.text =
-                Math.Ceiling(playerDefense.totalValue) + "/" 
-                + (playerDefense.value * 20 + playerDefense.value);
+            var playerStats = GameManager.self.playerData;
+
+            m_HealthText.text = "HP: " + Math.Ceiling(playerStats.health.totalValue)
+                + "/" + playerStats.health.value;
+
+            m_DefenseText.text = "S:" + Math.Ceiling(playerStats.defense.totalValue)
+                + "/" + (playerStats.defense.value * 20);
         }
     }
 }
