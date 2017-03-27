@@ -46,6 +46,7 @@ public class GameManager : MonoSingleton<GameManager>
             Load();
         else
         {
+            playerData = new PlayerData(200, 10, 10);
             playerData.staminaInformation = new StaminaInformation
             {
                 value = 0,
