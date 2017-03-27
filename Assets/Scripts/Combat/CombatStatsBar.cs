@@ -19,11 +19,6 @@
             m_Image = GetComponent<Image>();
             OnCombatModeChange();
 
-            m_DefenseText = GetComponentInChildren<Text>();
-            m_DefenseText.text =
-                GameManager.self.playerData.health.totalValue + "/" +
-                GameManager.self.playerData.health.value;
-
             CombatManager.self.onCombatModeChange.AddListener(OnCombatModeChange);
             CombatManager.self.onCombatUpdate.AddListener(OnCombatUpdate);
         }
