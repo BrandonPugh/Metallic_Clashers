@@ -55,7 +55,7 @@ public class PlayerData
         health.modifier -= finalDamage;
     }
 
-    public void DecaySheild()
+    public void DecayShield()
     {
         if (defense.modifier > 0)
         {

@@ -24,7 +24,7 @@
                 GameManager.self.playerData.health.value;
 
             CombatManager.self.onCombatModeChange.AddListener(OnCombatModeChange);
-            CombatManager.self.onCombatUpdate.AddListener(OnCombatUpdate);
+            GameManager.self.playerData.health.onTotalValueChanged.AddListener(OnHealthModifierChanged);
         }
 
         private void OnCombatModeChange()
@@ -32,7 +32,13 @@
             m_Image.color = CombatManager.self.combatUiInformation.currentModeUiInformation.modeColor;
         }
 
-        private void OnCombatUpdate()
+        //private void OnCombatUpdate()
+        //{
+        //    var playerHeath = GameManager.self.playerData.health;
+        //    m_HealthText.text = Math.Ceiling(playerHeath.totalValue) + "/" + playerHeath.value;
+        //}
+
+        private void OnHealthModifierChanged()
         {
             var playerHeath = GameManager.self.playerData.health;
             m_HealthText.text = Math.Ceiling(playerHeath.totalValue) + "/" + playerHeath.value;

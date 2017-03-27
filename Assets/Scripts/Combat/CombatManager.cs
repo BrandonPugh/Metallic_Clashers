@@ -314,7 +314,7 @@
 
             enemies = finalList;
 
-            GameManager.self.playerData.DecaySheild();
+            GameManager.self.playerData.DecayShield();
         }
 
         protected override void OnBeginDrag(DragInformation dragInfo)
