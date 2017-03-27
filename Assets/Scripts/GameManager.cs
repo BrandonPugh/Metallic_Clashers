@@ -7,6 +7,8 @@ using System.Xml.Serialization;
 
 using Combat;
 
+using CustomInput;
+
 using Library;
 
 using StageSelection;
@@ -83,6 +85,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             case 2:     // Combat
                 playerData.health.modifier = 0;
+                playerData.defense.modifier = 0;
                 CombatManager.self.onCombatEnd.AddListener(OnCombatEnd);
                 CombatManager.self.onPlayerTurn.AddListener(AudioManager.self.PlayDragSound);
                 gameState = GameState.Combat;

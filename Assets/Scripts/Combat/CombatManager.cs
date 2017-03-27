@@ -13,6 +13,8 @@
 
     using Board;
     using Board.Information;
+
+    using CustomInput;
     using CustomInput.Information;
 
     public class CombatManager : SubManager<CombatManager>
@@ -129,6 +131,8 @@
 
         private bool m_HasSlid;
 
+        [SerializeField]
+        private EnemyMono m_CurrentEnemy;
         public bool doCombat;
 
         public Canvas canvas { get { return m_Canvas; } }
@@ -172,20 +176,26 @@
             {
                 var managerEnemies = GameManager.self.enemyIndexes;
 
+                var spacing = 2f;
+
+                var pos = -(managerEnemies.Count*spacing)/2f + spacing / 2;
+                
                 for (var i = 0; i < managerEnemies.Count; i++)
                 {
                     var enemyPrefab = enemyPrefabList[managerEnemies[i]];
                     var enemyObject =
                         Instantiate(
                             enemyPrefab,
-                            new Vector3(managerEnemies.Count / 2 - i, .5f, 0),
+                            new Vector3(pos + (i*spacing), .5f, 0),
                             enemyPrefab.transform.rotation);
-
+               
+                    enemyObject.name += i;
                     var enemyMono = enemyObject.GetComponent<EnemyMono>();
                     enemies.Add(enemyMono);
                     m_OnCombatBegin.AddListener(enemyMono.enemy.OnCombatBegin);
                 }
                 GameManager.self.enemyIndexes = new List<int>();
+                m_CurrentEnemy = enemies[0];
             }
 
             if (m_GridParentRectTransform == null)
@@ -274,7 +284,7 @@
                     var dam = playerData.attack.totalValue *
                         (1 + (matchInfo.gems.Count - 3) * .25f);
 
-                    enemies[0].enemy.TakeDamage(dam, matchInfo.type);
+                    m_CurrentEnemy.enemy.TakeDamage(dam, matchInfo.type);
                     break;
 
                 case CombatMode.Defense:
@@ -363,6 +373,27 @@
             onPlayerTurn.Invoke();
 
             m_HasSlid = false;
+        }
+
+        protected override void OnPress(TouchInformation touchInfo)
+        {
+            var ray = Camera.main.ScreenPointToRay(touchInfo.position);
+            var hit = new RaycastHit();
+
+            try
+            {
+                Physics.Raycast(ray.origin, ray.direction, out hit);
+            }
+            catch { }
+
+            if (hit.transform == null)
+                return;
+
+            var gameOb = hit.transform.gameObject;
+            if (gameOb.GetComponent<EnemyMono>())
+            {
+                m_CurrentEnemy = gameOb.GetComponent<EnemyMono>();
+            }
         }
 
         private static IEnumerable<GridCollectionMono> RayCastToGridCollectionMono(Vector2 origin)
