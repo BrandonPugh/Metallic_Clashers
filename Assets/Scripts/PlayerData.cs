@@ -18,7 +18,7 @@ public class PlayerData
 
         health.value = 200;
         attack.value = 10;
-        defense.value = 10;
+        defense.value = 25;
 
         health.coefficient = 1;
         defense.coefficient = 1;
@@ -52,7 +52,7 @@ public class PlayerData
 
     public Attribute defense;
 
-    public float decayRate;
+    public float decayRate = 1f;
 
     public List<GemType> resistances;
     public List<GemType> weaknesses;

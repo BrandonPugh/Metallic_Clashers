@@ -32,5 +32,5 @@ public class Attribute
     }
     public UnityEvent onTotalValueChanged { get { return m_OnTotalValueChanged; } }
 
-    public float totalValue { get { return value * coefficient + modifier; } }
+    public float totalValue { get { return value * m_Coefficient + m_Modifier; } }
 }

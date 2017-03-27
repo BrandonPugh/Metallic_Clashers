@@ -6,4 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/Ben/Combat.unity
+    path: Assets/_Scenes/Game/Title.unity
+  - enabled: 1
+    path: Assets/_Scenes/Game/AreaSelection.unity
+  - enabled: 1
+    path: Assets/_Scenes/Game/Combat.unity
