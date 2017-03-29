@@ -3,6 +3,7 @@
 namespace Items
 {
     using System;
+    using UnityEngine;
 
     [Serializable]
     public class BaseItem
@@ -14,6 +15,7 @@ namespace Items
         public bool Alive { get { return m_Alive; } }
 
         public virtual void UseItem() {}
+        public virtual void UpdateSelf() {}
     }
 
     [Serializable]
@@ -32,7 +34,7 @@ namespace Items
     //for instant items, just remove them. do not destroy them.
 
     [Serializable]
-    public class TurnBased : BaseItem { public virtual void UpdateSelf() { m_Age++; } }
+    public class TurnBased : BaseItem { public override void UpdateSelf() { m_Age++; } }
 
     [Serializable]
     public class TurnBuff : TurnBased
@@ -80,7 +82,7 @@ namespace Items
     }
 
     [Serializable]
-    public class TimeBased : BaseItem { public virtual void UpdateSelf(float value) { m_Age += value; } }
+    public class TimeBased : BaseItem { public override void UpdateSelf() { m_Age += Time.deltaTime; } }
 
     [Serializable]
     public class TimeBuff : TimeBased
@@ -104,9 +106,9 @@ namespace Items
             }
         }
 
-        public override void UpdateSelf(float deltaTime)
+        public override void UpdateSelf()
         {
-            base.UpdateSelf(deltaTime);
+            base.UpdateSelf();
 
             if (m_Age < durability) { m_Alive = true; }
                 

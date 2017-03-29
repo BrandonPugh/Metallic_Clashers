@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 23154453975429722}
   - component: {fileID: 114610141562903338}
   m_Layer: 0
-  m_Name: Enemy 1
+  m_Name: Red Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,21 +268,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a8755d6dc22a5f42b9a46c7434ea3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy:
-    health:
-      value: 100
-      modifier: 0
-      coefficient: 1
-    attack:
-      value: 5
-      modifier: 0
-      coefficient: 1
-    defense:
+  m_Enemy:
+    m_Health:
+      m_Modifier: 0
+      m_Coefficient: 1
       value: 10
-      modifier: 0
-      coefficient: 1
-    attackSpeed: 10
-    movesUntilAttack: 7
+    m_Attack:
+      m_Modifier: 0
+      m_Coefficient: 1
+      value: 10
+    m_Defense:
+      m_Modifier: 0
+      m_Coefficient: 1
+      value: 10
+    attackSpeed: 5
+    movesUntilAttack: 3
     damageType: 0
     resistances: 
     weaknesses: 

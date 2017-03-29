@@ -19,9 +19,9 @@ public class BarLines : Graphic
     [SerializeField]
     private BarType m_BarType;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
 
         if (!Application.isPlaying)
             return;

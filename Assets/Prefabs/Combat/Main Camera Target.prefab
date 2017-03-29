@@ -133,7 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c6b8b13b03601343a0b9d5854c2066d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  marker: {fileID: 0}
+  markerPrefab: {fileID: 1414010284428244, guid: 98a4b08660dfdc947b72998388efcaff,
+    type: 2}
 --- !u!114 &114689919778191280
 MonoBehaviour:
   m_ObjectHideFlags: 1

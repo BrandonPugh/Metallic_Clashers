@@ -25,7 +25,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4024941165589956
 Transform:
@@ -55,41 +55,8 @@ MonoBehaviour:
   m_GridParentRectTransform: {fileID: 0}
   m_RowParent: {fileID: 0}
   m_ColumnParent: {fileID: 0}
-  m_CombatUiInformation:
-    m_AttackModeUiInformation:
-      backgroundImage: {fileID: 21300000, guid: f27f418978af40445947c24a93e55e83,
-        type: 3}
-      midgroundImage: {fileID: 21300000, guid: 79961ba19514166448f8bda8f3da7c18, type: 3}
-      foregroundImage: {fileID: 21300000, guid: 46a9baf9d5c7e2044a938a08a58c35db,
-        type: 3}
-      modeColor: {r: 0.92156863, g: 0.5882353, b: 0.5882353, a: 1}
-    m_DefenseModeUiInformation:
-      backgroundImage: {fileID: 21300000, guid: f27f418978af40445947c24a93e55e83,
-        type: 3}
-      midgroundImage: {fileID: 21300000, guid: 02616dde365a258418482e0eb05ac098, type: 3}
-      foregroundImage: {fileID: 21300000, guid: 6f2503bee1ea0064a840a61f73b030ba,
-        type: 3}
-      modeColor: {r: 0.45490196, g: 0.6156863, b: 0.9137255, a: 1}
-    standardGemColors:
-    - {r: 1, g: 0.1882353, b: 0.15686275, a: 1}
-    - {r: 1, g: 0.58431375, b: 0, a: 1}
-    - {r: 0.99607843, g: 1, b: 0, a: 1}
-    - {r: 0, g: 0.84313726, b: 0.03529412, a: 1}
-    - {r: 0, g: 0.49019608, b: 1, a: 1}
-    - {r: 0.6784314, g: 0, b: 1, a: 1}
-    alternativeGemColors:
-    - {r: 0.8352941, g: 0.36862746, b: 0, a: 1}
-    - {r: 0.9019608, g: 0.62352943, b: 0, a: 1}
-    - {r: 0.9411765, g: 0.89411765, b: 0.25882354, a: 1}
-    - {r: 0, g: 0.61960787, b: 0.4509804, a: 1}
-    - {r: 0, g: 0.44705883, b: 0.69803923, a: 1}
-    - {r: 0.8, g: 0.4745098, b: 0.654902, a: 1}
-    m_UseAlternativeColors: 0
-    m_OnUseAlternativeColorsChange:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Combat.CombatManager+UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
+  m_CombatUiInformation: {fileID: 11400000, guid: cda12d17a8052904d8e7a6ff8f7ea536,
+    type: 2}
   m_CombatMode: 0
   m_OnCombatBegin:
     m_PersistentCalls:
@@ -119,8 +86,8 @@ MonoBehaviour:
   m_OnCombatPauseChange:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Combat.CombatManager+UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Library.UnityBoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   m_OnPlayerTurn:
     m_PersistentCalls:
       m_Calls: []
@@ -128,8 +95,8 @@ MonoBehaviour:
       PublicKeyToken=null
   m_GridMono: {fileID: 0}
   m_CurrentEnemy: {fileID: 0}
-  doCombat: 0
-  enemies: []
+  doCombat: 1
+  enemyPadding: 1
   enemyPrefabList:
   - {fileID: 1978000353783988, guid: 05fc6f9ca8e594e429fdc6e7984fd2c6, type: 2}
   - {fileID: 1978000353783988, guid: e4e6db6db2938154692b0ece784cb965, type: 2}

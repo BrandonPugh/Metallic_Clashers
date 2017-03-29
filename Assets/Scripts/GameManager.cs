@@ -32,6 +32,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     private const string savePath = "/PlayerData.xml";
     private int m_CurrentScene = 0;
+    [SerializeField]
+    private List<GameObject> m_EnemyPrefabList = new List<GameObject>();
 
     public GameState gameState;
 
@@ -39,6 +41,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public List<int> enemyIndexes = new List<int>();
 
+    public List<GameObject> enemyPrefabList { get { return m_EnemyPrefabList;} }
     public UnityEvent onSceneLoaded { get { return m_OnSceneLoaded; } }
 
     protected override void OnAwake()

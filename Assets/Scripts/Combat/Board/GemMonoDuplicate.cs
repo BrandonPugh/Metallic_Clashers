@@ -4,15 +4,6 @@
 
     public class GemMonoDuplicate : GemMono
     {
-        private void Awake() { }
-        private void Start()
-        {
-            // Now that everything should be initialized, we can show the gem visually
-            m_BackgroundImage.enabled = true;
-            m_MidgroundImage.enabled = true;
-            m_ForegroundImage.enabled = true;
-        }
-
         protected override void UpdateTransformPosition()
         {
             var spacing = gridMono.CalculateSpacing();
@@ -25,7 +16,7 @@
             offsetPosition =
                 new Vector2(offsetPosition.x * spacing.x, offsetPosition.y * spacing.y);
 
-            m_RectTransform.anchoredPosition =
+            m_RectTransform.anchoredPosition = 
                 offsetPosition + rowMono.positionOffset + columnMono.positionOffset;
 
             m_PositionIsDirty = false;

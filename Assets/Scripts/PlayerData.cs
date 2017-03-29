@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Combat.Board;
-
+using Items;
 using UnityEngine;
-
 using Tree = StageSelection.Tree;
 
 [Serializable]
@@ -64,47 +62,27 @@ public class PlayerData
 
     public LevelSystem playerLevelSystem;
 
-    //public List<BaseItems> itemInventory = new List<BaseItems>();
+    public ItemManager itemManager;
 
     public void TakeDamage(float damage, GemType gemType)
     {
         var finalDamage = damage - defense.totalValue;
         defense.modifier -= damage;
-        if (defense.modifier < -defense.value)
-        {
-            defense.modifier = -defense.value;
-        }
 
-        if (finalDamage <= 0)
-            return;
+        if (defense.modifier < -defense.value) { defense.modifier = -defense.value; }
 
-        if (resistances.Contains(gemType))
-        {
-            finalDamage *= .75f;
-        }
+        if (finalDamage <= 0) return;
 
-        else if (weaknesses.Contains(gemType))
-        {
-            finalDamage *= 1.25f;
-        }
+        if (resistances.Contains(gemType)) { finalDamage *= .75f; }
+        else if (weaknesses.Contains(gemType)) { finalDamage *= 1.25f; }
 
         health.modifier -= finalDamage;
     }
 
     public void DecayShield()
     {
-        if (defense.modifier > 0)
-        {
-            defense.modifier -= decayRate * Time.deltaTime;
-            if (defense.modifier < 0)
-            {
-                defense.modifier = 0;
-            }
-        }
+        if (defense.modifier > 0) { defense.modifier -= decayRate * Time.deltaTime; if (defense.modifier < 0) { defense.modifier = 0; } }
 
-        if (defense.modifier > defense.value*20 - defense.value)
-        {
-            defense.modifier = defense.value * 20 - defense.value;
-        }
+        if (defense.modifier > defense.value*20 - defense.value) { defense.modifier = defense.value * 20 - defense.value; }
     }
 }

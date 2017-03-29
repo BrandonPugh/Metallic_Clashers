@@ -8,7 +8,6 @@
 
     using UnityEngine;
     using UnityEngine.Events;
-    using UnityEngine.EventSystems;
     using UnityEngine.UI;
 
     [Serializable]
@@ -19,34 +18,51 @@
 
     public class StageSelectionManager : SubManager<StageSelectionManager>
     {
+        private List<Tree> m_Worlds = new List<Tree>();
+
+        private int m_Currentworld;
+        private Node m_CurrentNode;
+        [SerializeField]
+        private Text m_StageNameText;
+        [SerializeField]
+        private Text m_EnemyText;
+        [SerializeField]
+        private Button m_StartComabtButton;
+
         public UnityEvent onStageSelectionEnd = new UnityEvent();
 
         public GameObject nodePrefab;
         public GameObject linePrefab;
-        public Material lineRenderMaterial;
-        [HideInInspector]
-        public List<Tree> worlds = new List<Tree>();
+
         public float spacingMagnitude;
 
-        public int currentworld;
+
 
         protected override void Init()
         {
-            worlds =
+            m_Worlds =
                 new List<Tree>
                 {
                     new Tree
                     {
                         nodes = new List<Node>
                         {
-                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1), worldIndex = 1, enemyInts = new List<int> {1,1,1}},
-                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3), worldIndex = 1, enemyInts = new List<int> {0}},
-                            new Node {stageNumber = "1A", normalizedPosition = new Vector2(1, 0), worldIndex = 1, enemyInts = new List<int> {0}},
-                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(-2, 1), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(1, 2), worldIndex = 1, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0),
+                                worldIndex = 1, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1),
+                                worldIndex = 1, enemyInts = new List<int> {1,1,1}},
+                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2),
+                                worldIndex = 1, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3),
+                                worldIndex = 1, enemyInts = new List<int> {0}},
+                            new Node {stageNumber = "1A", normalizedPosition = new Vector2(1, 0),
+                                worldIndex = 1, enemyInts = new List<int> {0}},
+                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1),
+                                worldIndex = 1, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(-2, 1),
+                                worldIndex = 1, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(1, 2),
+                                worldIndex = 1, enemyInts = new List<int> {0,0,0}},
                         }
                     }
                     ,
@@ -55,14 +71,22 @@
                     {
                         nodes = new List<Node>
                         {
-                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(-1, 2), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(1, 1), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
-                            new Node {stageNumber = "3B", normalizedPosition = new Vector2(1, 2), worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "1", normalizedPosition = new Vector2(0, 0),
+                                worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2", normalizedPosition = new Vector2(0, 1),
+                                worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "3", normalizedPosition = new Vector2(0, 2),
+                                worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "Boss", normalizedPosition = new Vector2(0, 3),
+                                worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2A", normalizedPosition = new Vector2(-1, 1),
+                                worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "3A", normalizedPosition = new Vector2(-1, 2),
+                                worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "2B", normalizedPosition = new Vector2(1, 1),
+                                worldIndex = 2, enemyInts = new List<int> {0,0,0}},
+                            new Node {stageNumber = "3B", normalizedPosition = new Vector2(1, 2),
+                                worldIndex = 2, enemyInts = new List<int> {0,0,0}},
                         }
                     }
                 };
@@ -70,31 +94,31 @@
             // Make Links
 
             // Tree 1
-            LinkNodes(worlds[0].nodes[0], worlds[0].nodes[1]);
-            LinkNodes(worlds[0].nodes[1], worlds[0].nodes[2]);
-            LinkNodes(worlds[0].nodes[2], worlds[0].nodes[3]);
-            LinkNodes(worlds[0].nodes[0], worlds[0].nodes[4]);
-            LinkNodes(worlds[0].nodes[1], worlds[0].nodes[5]);
-            LinkNodes(worlds[0].nodes[5], worlds[0].nodes[6]);
-            LinkNodes(worlds[0].nodes[2], worlds[0].nodes[7]);
+            LinkNodes(m_Worlds[0].nodes[0], m_Worlds[0].nodes[1]);
+            LinkNodes(m_Worlds[0].nodes[1], m_Worlds[0].nodes[2]);
+            LinkNodes(m_Worlds[0].nodes[2], m_Worlds[0].nodes[3]);
+            LinkNodes(m_Worlds[0].nodes[0], m_Worlds[0].nodes[4]);
+            LinkNodes(m_Worlds[0].nodes[1], m_Worlds[0].nodes[5]);
+            LinkNodes(m_Worlds[0].nodes[5], m_Worlds[0].nodes[6]);
+            LinkNodes(m_Worlds[0].nodes[2], m_Worlds[0].nodes[7]);
 
             //Link
-            LinkNodes(worlds[0].nodes[3], worlds[1].nodes[0]);
+            LinkNodes(m_Worlds[0].nodes[3], m_Worlds[1].nodes[0]);
 
             // Tree 2
-            LinkNodes(worlds[1].nodes[0], worlds[1].nodes[1]);
-            LinkNodes(worlds[1].nodes[1], worlds[1].nodes[2]);
-            LinkNodes(worlds[1].nodes[2], worlds[1].nodes[3]);
-            LinkNodes(worlds[1].nodes[1], worlds[1].nodes[4]);
-            LinkNodes(worlds[1].nodes[4], worlds[1].nodes[5]);
-            LinkNodes(worlds[1].nodes[1], worlds[1].nodes[6]);
-            LinkNodes(worlds[1].nodes[6], worlds[1].nodes[7]);
+            LinkNodes(m_Worlds[1].nodes[0], m_Worlds[1].nodes[1]);
+            LinkNodes(m_Worlds[1].nodes[1], m_Worlds[1].nodes[2]);
+            LinkNodes(m_Worlds[1].nodes[2], m_Worlds[1].nodes[3]);
+            LinkNodes(m_Worlds[1].nodes[1], m_Worlds[1].nodes[4]);
+            LinkNodes(m_Worlds[1].nodes[4], m_Worlds[1].nodes[5]);
+            LinkNodes(m_Worlds[1].nodes[1], m_Worlds[1].nodes[6]);
+            LinkNodes(m_Worlds[1].nodes[6], m_Worlds[1].nodes[7]);
 
             var canvas = FindObjectOfType<Canvas>();
             var treePos = Vector2.zero;
 
             //Make Node GameObjects.
-            foreach (var tree in worlds)
+            foreach (var tree in m_Worlds)
             {
                 var nodeGameObjects = new List<GameObject>();
                 foreach (var n in tree.nodes)
@@ -109,11 +133,12 @@
 
                     var nodeTransform = nodeObject.GetComponent<RectTransform>();
                     nodeTransform.anchoredPosition =
-                        new Vector2(n.normalizedPosition.x*spacingMagnitude, n.normalizedPosition.y*spacingMagnitude) +
+                        new Vector2(n.normalizedPosition.x*spacingMagnitude, 
+                        n.normalizedPosition.y*spacingMagnitude) +
                         treePos;
 
                     var button = nodeObject.GetComponent<Button>();
-                    button.onClick.AddListener(this.OnStageSelectionEnd);
+                    button.onClick.AddListener(() => { SetCurrentNode(n); });
                     nodeGameObjects.Add(nodeObject);
                 }
 
@@ -141,16 +166,16 @@
 
             if (savedData.Count == 0)
             {
-                GameManager.self.playerData.worldData = worlds;
+                GameManager.self.playerData.worldData = m_Worlds;
             }
 
             else
             {
                 for (var i = 0; i < savedData.Count; i++)
                 {
-                    for (var j = 0; j < worlds[i].nodes.Count; j++)
+                    for (var j = 0; j < m_Worlds[i].nodes.Count; j++)
                     {
-                        worlds[i].nodes[j].isComplete = savedData[i].nodes[j].isComplete;
+                        m_Worlds[i].nodes[j].isComplete = savedData[i].nodes[j].isComplete;
                     }
                 }
             }
@@ -187,7 +212,8 @@
                         ? new Vector2(differance.magnitude, 10)
                         : new Vector2(10, differance.magnitude);
 
-                    lineObject.GetComponent<Image>().color = (monoNode.node.isComplete) ? Color.blue : Color.red;
+                    lineObject.GetComponent<Image>().color = (monoNode.node.isComplete) 
+                        ? Color.blue : Color.red;
                         // Set Material Color
 
                     lineTransform.position = linePosition;
@@ -207,13 +233,17 @@
                 m.transform.SetSiblingIndex(counter);
                 counter++;
             }
+
+            //Set Up UI
+            m_StageNameText.text = "";
+            m_EnemyText.text = "";
+            m_StartComabtButton.onClick.AddListener(OnStageSelectionEnd);
+            m_StartComabtButton.interactable = false;
         }
 
-        public void OnStageSelectionEnd()
+        private void OnStageSelectionEnd()
         {
-            var node = EventSystem.current.currentSelectedGameObject.GetComponent<MonoNode>().node;
-
-            GameManager.self.enemyIndexes = node.enemyInts;
+            GameManager.self.enemyIndexes = m_CurrentNode.enemyInts;
             onStageSelectionEnd.Invoke();
         }
 
@@ -234,40 +264,41 @@
             // Change world Index
             if (slideMag.x < 0)
             {
-                currentworld++;
+                m_Currentworld++;
             }
             else if (slideMag.x > 0)
             {
-                currentworld--;
+                m_Currentworld--;
             }
 
             // If we can move, we will as log as the index is 0 to last element in worlds
-            if (currentworld >= 0 && currentworld <= worlds.Count - 1)
+            if (m_Currentworld >= 0 && m_Currentworld <= m_Worlds.Count - 1)
             {
                 foreach (var child in FindObjectsOfType<RectTransform>())
                 {
                     if (child.GetComponent<MonoNode>() || child.name.Contains("Line"))
                     {
                         StartCoroutine(
-                            MoveObject(child, child.anchoredPosition, child.anchoredPosition + slideMag, .2f));
+                            MoveObject(child, child.anchoredPosition, 
+                            child.anchoredPosition + slideMag, .2f));
                     }
                 }
             }
             // If we can't move, Reset index
             else
             {
-                if (currentworld >= worlds.Count)
+                if (m_Currentworld >= m_Worlds.Count)
                 {
-                    currentworld = worlds.Count - 1;
+                    m_Currentworld = m_Worlds.Count - 1;
                 }
-                else if (currentworld < 0)
+                else if (m_Currentworld < 0)
                 {
-                    currentworld = 0;
+                    m_Currentworld = 0;
                 }
             }
         }
 
-        public IEnumerator MoveObject(RectTransform rt, Vector2 start, Vector2 end, float time)
+        private IEnumerator MoveObject(RectTransform rt, Vector2 start, Vector2 end, float time)
         {
             var i = 0.0;
             var rate = 1.0/time;
@@ -277,6 +308,43 @@
                 rt.anchoredPosition = Vector3.Lerp(start, end, (float)i);
                 yield return null;
             }
+        }
+
+        private void SetCurrentNode(Node n)
+        {
+            m_CurrentNode = n;
+            DisplayInformation();
+        }
+
+        private void DisplayInformation()
+        {
+            if (m_CurrentNode.isComplete)
+            {
+                m_StageNameText.text = "Stage: " + m_CurrentNode.stageName + " - Completed";
+            }
+            else
+            {
+                m_StageNameText.text = "Stage: " + m_CurrentNode.stageName + " - Playable";
+            }
+
+            // Enemy Display - Text
+            m_EnemyText.text = "";
+
+            var enemyInstances = new Dictionary<string, int>();
+            foreach (var index in m_CurrentNode.enemyInts)
+            {
+                var name = GameManager.self.enemyPrefabList[index].name;
+                if(!enemyInstances.ContainsKey(name))
+                    enemyInstances.Add(name, 0);
+                enemyInstances[name] += 1;
+            }
+
+            foreach (var key in enemyInstances)
+            {
+                m_EnemyText.text += key.Key + " x" + key.Value;
+            }
+
+            m_StartComabtButton.interactable = true;
         }
     }
 }
