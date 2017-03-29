@@ -6,14 +6,20 @@ using UnityEngine;
 namespace Combat
 {
     [Serializable]
-    public class Enemy
+    public class Enemy : IAttachable
     {
-        public Attribute health = new Attribute();
-        public Attribute attack = new Attribute();
-        public Attribute defense = new Attribute();
+        [SerializeField]
+        private Attribute m_Health = new Attribute { value = 10f };
+        [SerializeField]
+        private Attribute m_Attack = new Attribute { value = 10f };
+        [SerializeField]
+        private Attribute m_Defense = new Attribute { value = 10f };
 
-        public float attackSpeed;
-        public int movesUntilAttack;
+        public Attribute health { get { return m_Health; } }
+        public Attribute attack { get { return m_Attack; } }
+        public Attribute defense {get { return m_Defense; } }
+
+        public float attackSpeed;public int movesUntilAttack;
         public GemType damageType;
 
         public List<GemType> resistances;
@@ -21,6 +27,10 @@ namespace Combat
 
         private int movesCounter = 0;
         private float attackCountdown;
+
+        private readonly List<IComponent> m_Components = new List<IComponent>();
+
+        public List<IComponent> components { get { return m_Components; } }
 
         public Enemy()
         {
@@ -39,21 +49,23 @@ namespace Combat
             movesUntilAttack = 3;
         }
 
-        public Enemy(float pHealth, float pAttack, float pDefense, float pattackSpeed, int pmovesUntilAttack)
+        public Enemy(
+            float newHealth,
+            float newAttack,
+            float newDefense,
+            float newAttackSpeed,
+            int newMovesUntilAttack)
         {
-            health.value = pHealth;
-            health.coefficient = 1;
+            health.value = newHealth;
 
-            attack.value = pAttack;
-            attack.coefficient = 1;
+            attack.value = newAttack;
 
-            defense.value = pDefense;
-            defense.coefficient = 1;
+            defense.value = newDefense;
 
-            attackSpeed = pattackSpeed;
+            attackSpeed = newAttackSpeed;
             attackCountdown = attackSpeed;
 
-            movesUntilAttack = pmovesUntilAttack;
+            movesUntilAttack = newMovesUntilAttack;
 
         }
 

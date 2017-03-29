@@ -1,4 +1,4 @@
-﻿namespace Combat
+﻿namespace Combat.UI
 {
     using System;
 

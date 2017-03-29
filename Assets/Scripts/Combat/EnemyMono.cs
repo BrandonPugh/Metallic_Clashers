@@ -1,9 +1,13 @@
-﻿using UnityEngine;
-
-namespace Combat
+﻿namespace Combat
 {
-    public class EnemyMono : MonoBehaviour
+    using UnityEngine;
+
+    using Board;
+    public class EnemyMono : MonoBehaviour, IComponent
     {
-        public Enemy enemy;
+        [SerializeField]
+        private Enemy m_Enemy;
+
+        public Enemy enemy { get { return m_Enemy; } }
     }
 }

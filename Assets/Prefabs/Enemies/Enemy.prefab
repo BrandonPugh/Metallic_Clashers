@@ -270,17 +270,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy:
     health:
-      value: 100
-      modifier: 0
-      coefficient: 1
+      value: 25
     attack:
       value: 5
-      modifier: 0
-      coefficient: 1
     defense:
       value: 10
-      modifier: 0
-      coefficient: 1
     attackSpeed: 10
     movesUntilAttack: 7
     damageType: 0

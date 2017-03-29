@@ -266,6 +266,13 @@
                         m_ForegroundImage.color.b,
                         1 - deltaTime / 0.5f);
 
+                m_RectTransform.Rotate(0f, 0f, -270f * Time.deltaTime);
+
+                m_RectTransform.localScale =
+                    new Vector3(
+                        1f + 0.5f * (deltaTime / 0.5f),
+                        1f + 0.5f * (deltaTime / 0.5f), 1f);
+
                 deltaTime += Time.deltaTime;
 
                 yield return null;

@@ -11,8 +11,6 @@
     using UnityEngine;
     using UnityEngine.Events;
 
-    public interface IComponent { }
-
     [Serializable]
     public class PositionChangeEvent : UnityEvent<PositionChangeInformation> { }
     [Serializable]
@@ -39,7 +37,7 @@
     }
 
     [Serializable]
-    public class Gem
+    public class Gem : IAttachable
     {
         #region SERIALIZED_FIELDS
 
@@ -111,15 +109,6 @@
             m_GemType = newGemType;
 
             onCreate.Invoke(this);
-        }
-
-        public T GetComponent<T>() where T : IComponent
-        {
-            return (T)components.First(component => component is T);
-        }
-        public IEnumerable<T> GetComponents<T>() where T : IComponent
-        {
-            return components.Where(component => component is T).Cast<T>();
         }
 
         [CanBeNull]

@@ -11,10 +11,7 @@ public class LevelSystem
         public uint level; //player's level
         public uint currentExperience; //player's current exp amount
         public uint experienceRequired; //the exp amount the player needs to level up
-        public uint experienceNeeded //experienceRequired - currentExperience
-        {
-            get { return experienceRequired - currentExperience; }
-        } 
+        public uint experienceNeeded { get { return experienceRequired - currentExperience; } } //experienceRequired - currentExperience 
     }
 
     public LevelInfo playerLevelInfo;
@@ -64,17 +61,10 @@ public class LevelSystem
             {
                 const int c_percentageValue = 10 / 100; //10%
 
-                //health stat change
-                GameManager.self.playerData.health.value *= c_percentageValue;
-
-                //attack stat change
-                GameManager.self.playerData.attack.value *= c_percentageValue;
-
-                //defense stat change
-                GameManager.self.playerData.defense.value *= c_percentageValue;
-
-                //stamina stat change
-                StaminaManager.self.maxValue *= c_percentageValue;
+                GameManager.self.playerData.health.value *= c_percentageValue; //health stat change
+                GameManager.self.playerData.attack.value *= c_percentageValue; //attack stat change
+                GameManager.self.playerData.defense.value *= c_percentageValue; //defense stat change
+                StaminaManager.self.maxValue *= c_percentageValue; //stamina stat change
             }
         }
 

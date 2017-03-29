@@ -76,7 +76,10 @@
                 m_Grid.ApplyGravity();
                 m_Grid.Fill();
 
-                m_WaitToCheckForMatch = WaitToCheckForMatch();
+                m_WaitToCheckForMatch =
+                    WaitUntilAnyGemsThenExecute(
+                        gem => gem.GetComponent<GemMono>().moveToPositionCoroutine != null,
+                        () => m_Grid.CheckMatch());
 
                 m_GemsAreMatching = false;
             }
@@ -99,18 +102,22 @@
                     m_RectTransform.rect.height / (grid.size.y - 1));
         }
 
-        private IEnumerator WaitToCheckForMatch()
+        private delegate bool GemPredicate(Gem gem);
+        private delegate void VoidDelegate();
+
+        private IEnumerator WaitUntilAnyGemsThenExecute(
+            GemPredicate gemPredicate, VoidDelegate functionDelegate)
         {
             while (
                 grid.gemLists.Any(
                     gemList => gemList.gems.Where(
                         gem => gem != null).Any(
-                        gem => gem.GetComponent<GemMono>().moveToPositionCoroutine != null)))
+                        gem => gemPredicate(gem))))
             {
                 yield return null;
             }
 
-            m_Grid.CheckMatch();
+            functionDelegate();
 
             m_WaitToCheckForMatch = null;
         }

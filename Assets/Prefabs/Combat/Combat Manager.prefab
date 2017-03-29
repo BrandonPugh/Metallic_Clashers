@@ -127,6 +127,8 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_GridMono: {fileID: 0}
+  m_CurrentEnemy: {fileID: 0}
+  doCombat: 0
   enemies: []
   enemyPrefabList:
   - {fileID: 1978000353783988, guid: 05fc6f9ca8e594e429fdc6e7984fd2c6, type: 2}

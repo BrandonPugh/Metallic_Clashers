@@ -21,7 +21,7 @@
 
         private Vector2 m_PositionOffset;
         private Vector2 m_CurrentDirection;
-        private float m_ReducePositionOffsetTime = 1f;
+        private float m_ReducePositionOffsetTime = 0.75f;
         private IEnumerator m_ReducePositionOffsetCoroutine;
 
         public Grid grid { get { return m_GridCollection.grid; } }
@@ -111,6 +111,9 @@
                     m_PositionOffset =
                         Vector2.Lerp(m_PositionOffset, Vector2.zero, deltaTime / m_ReducePositionOffsetTime);
                 }
+
+                if (m_PositionOffset.magnitude < 1f)
+                    break;
 
                 CheckForSlide();
 

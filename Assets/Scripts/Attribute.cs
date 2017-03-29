@@ -1,12 +1,15 @@
 ﻿using System;
 
+using UnityEngine;
 using UnityEngine.Events;
 
 [Serializable]
 public class Attribute
 {
+    [SerializeField]
     private float m_Modifier;
-    private float m_Coefficient;
+    [SerializeField]
+    private float m_Coefficient = 1f;
     private UnityEvent m_OnTotalValueChanged = new UnityEvent();
 
     public float value;

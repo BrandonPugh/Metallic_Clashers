@@ -44,7 +44,7 @@
     }
 
     [Serializable]
-    public class Grid
+    public class Grid : IAttachable
     {
         [SerializeField]
         private List<GemList> m_GemLists = new List<GemList>();
@@ -414,11 +414,6 @@
                 clampedPosition.y += size.y;
 
             return clampedPosition;
-        }
-
-        public T GetComponent<T>() where T : IComponent
-        {
-            return (T)components.First(component => component is T);
         }
     }
 }

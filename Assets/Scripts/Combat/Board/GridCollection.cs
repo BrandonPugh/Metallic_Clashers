@@ -19,7 +19,7 @@
     public class CreateGridCollectionEvent : UnityEvent<GridCollection> { }
 
     [Serializable]
-    public abstract class GridCollection
+    public abstract class GridCollection : IAttachable
     {
         [SerializeField]
         protected int m_Index;
@@ -80,11 +80,6 @@
 
             grid.onSlide.Invoke(new SlideInformation { gridCollection = this });
             return true;
-        }
-
-        public T GetComponent<T>() where T : IComponent
-        {
-            return (T)m_Components.FirstOrDefault(component => component is T);
         }
     }
 
