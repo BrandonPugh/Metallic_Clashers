@@ -76,6 +76,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  m_EnemyPrefabList:
+  - {fileID: 1978000353783988, guid: 05fc6f9ca8e594e429fdc6e7984fd2c6, type: 2}
+  - {fileID: 1978000353783988, guid: e4e6db6db2938154692b0ece784cb965, type: 2}
   gameState: 0
   playerData:
     health:
